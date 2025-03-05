@@ -1,0 +1,54 @@
+{
+	"name": "Type1SCD_ForSP",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SCDT1",
+						"type": "DatasetReference"
+					},
+					"name": "SCDSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SCD1",
+						"type": "DatasetReference"
+					},
+					"name": "StagingSCD1Data"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerID as integer,",
+				"          Name as string,",
+				"          Email as string,",
+				"          LoadDate as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SCDSource",
+				"SCDSource sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          CustomerID,",
+				"          Name,",
+				"          Email,",
+				"          LoadDate",
+				"     )) ~> StagingSCD1Data"
+			]
+		}
+	}
+}

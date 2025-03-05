@@ -1,0 +1,168 @@
+{
+	"name": "SCDType2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SCD2CSV",
+						"type": "DatasetReference"
+					},
+					"name": "SourceSCD2stream"
+				},
+				{
+					"dataset": {
+						"referenceName": "SCD2Table",
+						"type": "DatasetReference"
+					},
+					"name": "SinkSCD2Table"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SCD2Table",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "SCD2Table",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddingISACTIVE"
+				},
+				{
+					"name": "SqlTableSCD2"
+				},
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "ExistingRowinboth"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "alterRow1"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          empid as integer,",
+				"          empname as string,",
+				"          gender as string,",
+				"          country as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceSCD2stream",
+				"source(output(",
+				"          surrKey as integer,",
+				"          empid as integer,",
+				"          empname as string,",
+				"          gender as string,",
+				"          country as string,",
+				"          IsActive as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SinkSCD2Table",
+				"SourceSCD2stream derive(IsActive = 1) ~> AddingISACTIVE",
+				"SinkSCD2Table select(mapColumn(",
+				"          surrKey_table = surrKey,",
+				"          empid_table = empid,",
+				"          empname_table = empname,",
+				"          gender_table = gender,",
+				"          country_table = country,",
+				"          IsActive_table = IsActive",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SqlTableSCD2",
+				"SourceSCD2stream, SqlTableSCD2 lookup(empid == empid_table,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1 filter(!isNull(empid_table)) ~> ExistingRowinboth",
+				"ExistingRowinboth select(mapColumn(",
+				"          surrKey_table,",
+				"          empid_table,",
+				"          empname_table,",
+				"          gender_table,",
+				"          country_table,",
+				"          IsActive_table",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"derivedColumn1 alterRow(updateIf(1==1)) ~> alterRow1",
+				"select1 derive(IsActive_table = 0) ~> derivedColumn1",
+				"AddingISACTIVE sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          surrKey as integer,",
+				"          empid as integer,",
+				"          empname as string,",
+				"          gender as string,",
+				"          country as string,",
+				"          IsActive as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 2,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          empid,",
+				"          empname,",
+				"          gender,",
+				"          country,",
+				"          IsActive",
+				"     )) ~> sink1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          surrKey as integer,",
+				"          empid as integer,",
+				"          empname as string,",
+				"          gender as string,",
+				"          country as string,",
+				"          IsActive as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['surrKey'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          surrKey = surrKey_table,",
+				"          empid = empid_table,",
+				"          empname = empname_table,",
+				"          gender = gender_table,",
+				"          country = country_table,",
+				"          IsActive = IsActive_table",
+				"     )) ~> sink2"
+			]
+		}
+	}
+}

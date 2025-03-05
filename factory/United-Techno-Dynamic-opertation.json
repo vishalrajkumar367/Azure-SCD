@@ -1,0 +1,9 @@
+{
+	"name": "United-Techno-Dynamic-opertation",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "1ed47734-a89f-4114-9855-c60003350bfc",
+		"tenantId": "79e5eae0-130e-448a-9a08-3fe537e78ca1"
+	}
+}

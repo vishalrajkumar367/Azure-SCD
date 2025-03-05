@@ -1,0 +1,54 @@
+{
+	"name": "Feedconfig",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SCD_Type1_SQL_DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FeedID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FeedName",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceType",
+				"type": "varchar"
+			},
+			{
+				"name": "SourcePath",
+				"type": "varchar"
+			},
+			{
+				"name": "DestinationTable",
+				"type": "varchar"
+			},
+			{
+				"name": "SCDType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsActive",
+				"type": "bit"
+			},
+			{
+				"name": "LastRunDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FeedConfig"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

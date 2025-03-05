@@ -1,0 +1,17 @@
+{
+	"name": "SCD1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SCD_Type1_SQL_DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FinalUpdateSCD"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
