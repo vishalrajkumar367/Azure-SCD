@@ -3,63 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Stored procedure1",
-				"type": "SqlServerStoredProcedure",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[dbo].[Upsert_CustomerData]",
-					"storedProcedureParameters": {
-						"CustomerID": {
-							"value": {
-								"value": "@activity('Lookup1').output.value[0].CustomerID\n",
-								"type": "Expression"
-							},
-							"type": "Int32"
-						},
-						"Email": {
-							"value": {
-								"value": "@activity('Lookup1').output.value[0].Email\n",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"LoadDate": {
-							"value": {
-								"value": "@formatDateTime(activity('Lookup1').output.value[0].LoadDate, 'yyyy-MM-dd')\n",
-								"type": "Expression"
-							},
-							"type": "Datetime"
-						},
-						"Name": {
-							"value": {
-								"value": "@activity('Lookup1').output.value[0].Name",
-								"type": "Expression"
-							},
-							"type": "String"
-						}
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "LS_SCD_Type1_SQL_DB",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
 				"name": "Data flow for SP",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
@@ -117,6 +60,77 @@
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.value\n",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Stored procedure2",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[Upsert_CustomerData]",
+								"storedProcedureParameters": {
+									"CustomerID": {
+										"value": {
+											"value": "@item().CustomerID\n",
+											"type": "Expression"
+										},
+										"type": "Int32"
+									},
+									"Email": {
+										"value": {
+											"value": "@item().Email\n",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"LoadDate": {
+										"value": {
+											"value": "@formatDateTime(item().LoadDate, 'yyyy-MM-dd HH:mm:ss')\n",
+											"type": "Expression"
+										},
+										"type": "Datetime"
+									},
+									"Name": {
+										"value": {
+											"value": "@item().Name",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LS_SCD_Type1_SQL_DB",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
 				}
 			}
 		],
