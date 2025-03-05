@@ -109,11 +109,17 @@
 										"type": "String"
 									},
 									"gender": {
-										"value": "",
+										"value": {
+											"value": "@item().gender",
+											"type": "Expression"
+										},
 										"type": "String"
 									},
-									"undefined": {
-										"value": "",
+									"country": {
+										"value": {
+											"value": "@item().country",
+											"type": "Expression"
+										},
 										"type": "String"
 									}
 								}
