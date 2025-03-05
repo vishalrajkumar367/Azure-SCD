@@ -131,7 +131,7 @@
 									},
 									"surrKey": {
 										"value": {
-											"value": "@item().SurrKey",
+											"value": "@item().surrKey",
 											"type": "Expression"
 										},
 										"type": "Int32"
