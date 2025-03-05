@@ -9,7 +9,7 @@
 						"referenceName": "SCD2CSV",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "Employee"
 				}
 			],
 			"sinks": [
@@ -31,8 +31,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
+				"     ignoreNoFilesFound: false) ~> Employee",
+				"Employee sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          surrKey as integer,",
