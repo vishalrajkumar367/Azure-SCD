@@ -94,8 +94,9 @@
 							"typeProperties": {
 								"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
 								"storedProcedureParameters": {
-									"undefined": {
-										"value": ""
+									"empid": {
+										"value": "",
+										"type": "Int32"
 									}
 								}
 							},
