@@ -46,12 +46,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
-					"storedProcedureParameters": {
-						"undefined": {
-							"value": ""
-						}
-					}
+					"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]"
 				},
 				"linkedServiceName": {
 					"referenceName": "LS_SCD_Type1_SQL_DB",
