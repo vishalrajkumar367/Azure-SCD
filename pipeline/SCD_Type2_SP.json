@@ -130,7 +130,10 @@
 										"type": "Boolean"
 									},
 									"SurrKey": {
-										"value": "@",
+										"value": {
+											"value": "@item().SurrKey",
+											"type": "Expression"
+										},
 										"type": "Int32"
 									}
 								}
