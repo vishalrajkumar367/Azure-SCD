@@ -29,7 +29,10 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> ConvertInt",
-				"ConvertInt derive(empid = ERROR_FUNCTION('')) ~> derivedColumn1"
+				"ConvertInt derive(empid = toInteger(empid),",
+				"          empname = toString(empname),",
+				"          gender = ERROR_FUNCTION(''),",
+				"          country = ERROR_FUNCTION('')) ~> derivedColumn1"
 			]
 		}
 	}
