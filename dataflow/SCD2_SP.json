@@ -14,10 +14,6 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "SCD2Table",
-						"type": "DatasetReference"
-					},
 					"name": "sink1"
 				}
 			],
@@ -39,28 +35,15 @@
 				"Employee derive(IsActive = 1) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          surrKey as integer,",
-				"          empid as integer,",
-				"          empname as string,",
-				"          gender as string,",
-				"          country as string,",
-				"          IsActive as integer",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          empid,",
 				"          empname,",
 				"          gender,",
 				"          country",
-				"     )) ~> sink1"
+				"     ),",
+				"     format: 'table') ~> sink1"
 			]
 		}
 	}
