@@ -24,7 +24,7 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
-				"          empid as string,",
+				"          empid as integer,",
 				"          empname as string,",
 				"          gender as string,",
 				"          country as string",
