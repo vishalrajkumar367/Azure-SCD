@@ -31,8 +31,8 @@
 				"     format: 'table') ~> ConvertInt",
 				"ConvertInt derive(empid = toInteger(empid),",
 				"          empname = toString(empname),",
-				"          gender = ERROR_FUNCTION(''),",
-				"          country = ERROR_FUNCTION('')) ~> derivedColumn1"
+				"          gender = toString(gender),",
+				"          country = toString(country)) ~> derivedColumn1"
 			]
 		}
 	}
