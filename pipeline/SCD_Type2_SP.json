@@ -105,8 +105,8 @@
 				]
 			},
 			{
-				"name": "Script1",
-				"type": "Script",
+				"name": "Stored procedure1",
+				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -123,21 +123,34 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
+					"storedProcedureParameters": {
+						"country": {
+							"value": "",
+							"type": "String"
+						},
+						"empid": {
+							"value": "",
+							"type": "Int32"
+						},
+						"empname": {
+							"value": "",
+							"type": "String"
+						},
+						"gender": {
+							"value": "",
+							"type": "String"
+						},
+						"LoadDate": {
+							"value": "",
+							"type": "Timespan"
+						}
+					}
+				},
 				"linkedServiceName": {
 					"referenceName": "LS_SCD_Type1_SQL_DB",
 					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"type": "Query",
-							"text": {
-								"value": "EXEC dbo.UpdateAndInsertEmployeesSCD2;\n",
-								"type": "Expression"
-							}
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
