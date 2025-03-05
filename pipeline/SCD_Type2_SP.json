@@ -48,8 +48,24 @@
 				"typeProperties": {
 					"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
 					"storedProcedureParameters": {
-						"undefined": {
-							"value": ""
+						"empid": {
+							"value": {
+								"value": "@activity('Data flow1').output",
+								"type": "Expression"
+							},
+							"type": "Int32"
+						},
+						"empname": {
+							"value": "",
+							"type": "String"
+						},
+						"gender": {
+							"value": "",
+							"type": "String"
+						},
+						"country": {
+							"value": "",
+							"type": "String"
 						}
 					}
 				},
