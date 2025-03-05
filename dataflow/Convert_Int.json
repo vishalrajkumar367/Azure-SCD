@@ -41,7 +41,7 @@
 				"          empname = toString(empname),",
 				"          gender = toString(gender),",
 				"          country = toString(country),",
-				"          LoadDate = ERROR_FUNCTION('')) ~> derivedColumn1",
+				"          LoadDate = currentDate()) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
