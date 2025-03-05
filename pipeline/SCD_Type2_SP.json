@@ -128,7 +128,7 @@
 					"storedProcedureParameters": {
 						"country": {
 							"value": {
-								"value": "@activity('Data flow1').output.country",
+								"value": "@activity('Data flow1').output",
 								"type": "Expression"
 							},
 							"type": "String"
