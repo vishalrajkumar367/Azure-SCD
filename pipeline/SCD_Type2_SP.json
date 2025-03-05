@@ -121,6 +121,17 @@
 											"type": "Expression"
 										},
 										"type": "String"
+									},
+									"IsActive": {
+										"value": {
+											"value": "@item().IsActive",
+											"type": "Expression"
+										},
+										"type": "Boolean"
+									},
+									"SurrKey": {
+										"value": "@",
+										"type": "Int32"
 									}
 								}
 							},
