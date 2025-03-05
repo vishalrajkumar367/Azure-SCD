@@ -56,15 +56,24 @@
 							"type": "Int32"
 						},
 						"empname": {
-							"value": "",
+							"value": {
+								"value": "@activity('Data flow1').output",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"gender": {
-							"value": "",
+							"value": {
+								"value": "@activity('Data flow1').output",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"country": {
-							"value": "",
+							"value": {
+								"value": "@activity('Data flow1').output",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
