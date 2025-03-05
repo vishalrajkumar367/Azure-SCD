@@ -132,7 +132,7 @@
 						},
 						"empid": {
 							"value": "",
-							"type": "Int32"
+							"type": "String"
 						},
 						"empname": {
 							"value": "",
