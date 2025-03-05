@@ -1,0 +1,1000 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "United-Techno-Dynamic-opertation"
+		},
+		"AzureDataLakeStorageSCD1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageSCD1'"
+		},
+		"SCDtype1Linkedservice_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SCDtype1Linkedservice'"
+		},
+		"AzureDataLakeStorageSCD1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://unitedtechnostorage.dfs.core.windows.net/"
+		},
+		"LS_SCD_Type1_SQL_DB_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "unitedtechnoserver.database.windows.net"
+		},
+		"LS_SCD_Type1_SQL_DB_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "ProcessedFilesDB"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/SCD_Type1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SCDFlow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Type1SCD",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SCDSource": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-03-05T07:43:55Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Type1SCD')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCD_Type2_SP')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "SCD2_SP",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Employee": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/SCD2_SP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SP_SCDT_1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow for SP",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Type1SCD_ForSP",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SCDSource": {},
+									"StagingSCD1Data": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Data flow for SP",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT * FROM dbo.FinalUpdateSCD1",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "SCD1",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup1').output.value\n",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Stored procedure2",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[Upsert_CustomerData]",
+										"storedProcedureParameters": {
+											"CustomerID": {
+												"value": {
+													"value": "@item().CustomerID\n",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"Email": {
+												"value": {
+													"value": "@item().Email\n",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"LoadDate": {
+												"value": {
+													"value": "@formatDateTime(item().LoadDate, 'yyyy-MM-dd HH:mm:ss')\n",
+													"type": "Expression"
+												},
+												"type": "Datetime"
+											},
+											"Name": {
+												"value": {
+													"value": "@item().Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_SCD_Type1_SQL_DB",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-03-05T10:30:49Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Type1SCD_ForSP')]",
+				"[concat(variables('factoryId'), '/datasets/SCD1')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_SCD_Type1_SQL_DB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/T2_SCD')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SCDType2",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "SCDType2",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SourceSCD2stream": {},
+									"SinkSCD2Table": {},
+									"sink1": {},
+									"sink2": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-03-05T07:59:55Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/SCDType2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Feedconfig')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SCD_Type1_SQL_DB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "FeedID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FeedName",
+						"type": "varchar"
+					},
+					{
+						"name": "SourceType",
+						"type": "varchar"
+					},
+					{
+						"name": "SourcePath",
+						"type": "varchar"
+					},
+					{
+						"name": "DestinationTable",
+						"type": "varchar"
+					},
+					{
+						"name": "SCDType",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IsActive",
+						"type": "bit"
+					},
+					{
+						"name": "LastRunDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FeedConfig"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SCD_Type1_SQL_DB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCD1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SCD_Type1_SQL_DB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FinalUpdateSCD1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SCD_Type1_SQL_DB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCD2CSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SCDtype1Linkedservice",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Employees.csv",
+						"container": "scd-type1"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "empid",
+						"type": "String"
+					},
+					{
+						"name": "empname",
+						"type": "String"
+					},
+					{
+						"name": "gender",
+						"type": "String"
+					},
+					{
+						"name": "country",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SCDtype1Linkedservice')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCD2Table')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SCD_Type1_SQL_DB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "surrKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "empid",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "empname",
+						"type": "nvarchar"
+					},
+					{
+						"name": "gender",
+						"type": "nvarchar"
+					},
+					{
+						"name": "country",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsActive",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SCD2SinkTable_employee"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SCD_Type1_SQL_DB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCDT1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SCDtype1Linkedservice",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "customers.csv",
+						"container": "scd-type1"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "Name",
+						"type": "String"
+					},
+					{
+						"name": "Email",
+						"type": "String"
+					},
+					{
+						"name": "LoadDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SCDtype1Linkedservice')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/StagedSCDT1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SCD_Type1_SQL_DB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Email",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LoadDate",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FinalUpdateSCD"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SCD_Type1_SQL_DB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorageSCD1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorageSCD1_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorageSCD1_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SCD_Type1_SQL_DB')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('LS_SCD_Type1_SQL_DB_properties_typeProperties_server')]",
+					"database": "[parameters('LS_SCD_Type1_SQL_DB_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SystemAssignedManagedIdentity"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCDtype1Linkedservice')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('SCDtype1Linkedservice_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCD2_SP')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SCD2CSV",
+								"type": "DatasetReference"
+							},
+							"name": "Employee"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SCD2Table",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          empid as integer,",
+						"          empname as string,",
+						"          gender as string,",
+						"          country as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> Employee",
+						"Employee sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          surrKey as integer,",
+						"          empid as integer,",
+						"          empname as string,",
+						"          gender as string,",
+						"          country as string,",
+						"          IsActive as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          empid,",
+						"          empname,",
+						"          gender,",
+						"          country",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SCD2CSV')]",
+				"[concat(variables('factoryId'), '/datasets/SCD2Table')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SCDType2')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SCD2CSV",
+								"type": "DatasetReference"
+							},
+							"name": "SourceSCD2stream"
+						},
+						{
+							"dataset": {
+								"referenceName": "SCD2Table",
+								"type": "DatasetReference"
+							},
+							"name": "SinkSCD2Table"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SCD2Table",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "SCD2Table",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AddingISACTIVE"
+						},
+						{
+							"name": "SqlTableSCD2"
+						},
+						{
+							"name": "lookup1"
+						},
+						{
+							"name": "ExistingRowinboth"
+						},
+						{
+							"name": "select1"
+						},
+						{
+							"name": "alterRow1"
+						},
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          empid as integer,",
+						"          empname as string,",
+						"          gender as string,",
+						"          country as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> SourceSCD2stream",
+						"source(output(",
+						"          surrKey as integer,",
+						"          empid as integer,",
+						"          empname as string,",
+						"          gender as string,",
+						"          country as string,",
+						"          IsActive as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> SinkSCD2Table",
+						"SourceSCD2stream derive(IsActive = 1) ~> AddingISACTIVE",
+						"SinkSCD2Table select(mapColumn(",
+						"          surrKey_table = surrKey,",
+						"          empid_table = empid,",
+						"          empname_table = empname,",
+						"          gender_table = gender,",
+						"          country_table = country,",
+						"          IsActive_table = IsActive",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SqlTableSCD2",
+						"SourceSCD2stream, SqlTableSCD2 lookup(empid == empid_table,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup1",
+						"lookup1 filter(!isNull(empid_table)) ~> ExistingRowinboth",
+						"ExistingRowinboth select(mapColumn(",
+						"          surrKey_table,",
+						"          empid_table,",
+						"          empname_table,",
+						"          gender_table,",
+						"          country_table,",
+						"          IsActive_table",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"derivedColumn1 alterRow(updateIf(1==1)) ~> alterRow1",
+						"select1 derive(IsActive_table = 0) ~> derivedColumn1",
+						"AddingISACTIVE sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          surrKey as integer,",
+						"          empid as integer,",
+						"          empname as string,",
+						"          gender as string,",
+						"          country as string,",
+						"          IsActive as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 2,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          empid,",
+						"          empname,",
+						"          gender,",
+						"          country,",
+						"          IsActive",
+						"     )) ~> sink1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          surrKey as integer,",
+						"          empid as integer,",
+						"          empname as string,",
+						"          gender as string,",
+						"          country as string,",
+						"          IsActive as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:true,",
+						"     upsertable:false,",
+						"     keys:['surrKey'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 1,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          surrKey = surrKey_table,",
+						"          empid = empid_table,",
+						"          empname = empname_table,",
+						"          gender = gender_table,",
+						"          country = country_table,",
+						"          IsActive = IsActive_table",
+						"     )) ~> sink2"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SCD2CSV')]",
+				"[concat(variables('factoryId'), '/datasets/SCD2Table')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Type1SCD')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SCDT1",
+								"type": "DatasetReference"
+							},
+							"name": "SCDSource"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SCD1",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "alterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          CustomerID as string,",
+						"          Name as string,",
+						"          Email as string,",
+						"          LoadDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> SCDSource",
+						"SCDSource alterRow(upsertIf(1==1)) ~> alterRow1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['CustomerID'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SCDT1')]",
+				"[concat(variables('factoryId'), '/datasets/SCD1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Type1SCD_ForSP')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SCDT1",
+								"type": "DatasetReference"
+							},
+							"name": "SCDSource"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SCD1",
+								"type": "DatasetReference"
+							},
+							"name": "StagingSCD1Data"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          CustomerID as integer,",
+						"          Name as string,",
+						"          Email as string,",
+						"          LoadDate as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> SCDSource",
+						"SCDSource sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          CustomerID,",
+						"          Name,",
+						"          Email,",
+						"          LoadDate",
+						"     )) ~> StagingSCD1Data"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SCDT1')]",
+				"[concat(variables('factoryId'), '/datasets/SCD1')]"
+			]
+		}
+	]
+}
