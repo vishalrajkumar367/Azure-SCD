@@ -127,7 +127,7 @@
 											"value": "@item().IsActive",
 											"type": "Expression"
 										},
-										"type": "Boolean"
+										"type": "Int32"
 									},
 									"SurrKey": {
 										"value": {
