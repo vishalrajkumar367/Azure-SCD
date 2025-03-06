@@ -211,29 +211,6 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "LoadDate",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "pipelineReturnValue",
-					"value": [
-						{
-							"key": "LoadDate",
-							"value": {
-								"type": "Expression",
-								"content": "@activity('Lookup1').output.LoadDate"
-							}
-						}
-					],
-					"setSystemVariable": true
-				}
 			}
 		],
 		"annotations": []
