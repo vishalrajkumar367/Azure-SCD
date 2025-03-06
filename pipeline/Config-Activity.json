@@ -5,7 +5,27 @@
 			{
 				"name": "ForEach_FeedConfig",
 				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup_SourceConfig",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": []
+			},
+			{
+				"name": "Lookup_SourceConfig",
+				"type": "Lookup",
 				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": []
 			}
 		],
