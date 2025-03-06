@@ -205,6 +205,10 @@
 										"type": "String"
 									},
 									"LoadDate": {
+										"value": {
+											"value": "@pipeline().parameters.LoadDate",
+											"type": "Expression"
+										},
 										"type": "Datetime"
 									}
 								}
@@ -226,7 +230,8 @@
 		},
 		"variables": {
 			"LoadDate": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "@utcnow()"
 			}
 		},
 		"annotations": []
