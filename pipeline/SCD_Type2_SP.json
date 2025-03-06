@@ -232,7 +232,10 @@
 					"variableName": "pipelineReturnValue",
 					"value": [
 						{
-							"key": "LoadDate"
+							"key": "LoadDate",
+							"value": {
+								"type": "Expression"
+							}
 						}
 					],
 					"setSystemVariable": true
