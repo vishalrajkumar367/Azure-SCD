@@ -203,8 +203,11 @@
 										"type": "String"
 									},
 									"LoadDate": {
-										"value": "",
-										"type": "Timespan"
+										"value": {
+											"value": "@formatDateTime(item().LoadDate, 'yyyy-MM-dd HH:mm:ss')\n",
+											"type": "Expression"
+										},
+										"type": "Datetimeoffset"
 									}
 								}
 							},
