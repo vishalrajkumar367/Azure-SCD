@@ -144,7 +144,14 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "LoadDate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
@@ -234,7 +241,8 @@
 						{
 							"key": "LoadDate",
 							"value": {
-								"type": "Expression"
+								"type": "Expression",
+								"content": "@activity('Lookup1').output.LoadDate"
 							}
 						}
 					],
