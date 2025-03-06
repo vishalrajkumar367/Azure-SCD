@@ -146,7 +146,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "LoadDate",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -196,7 +196,10 @@
 										"type": "String"
 									},
 									"gender": {
-										"value": "",
+										"value": {
+											"value": "@item().gender",
+											"type": "Expression"
+										},
 										"type": "String"
 									}
 								}
@@ -212,14 +215,7 @@
 			{
 				"name": "LoadDate",
 				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"secureOutput": false,
 					"secureInput": false
