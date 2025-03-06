@@ -28,13 +28,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"writeBehavior": "upsert",
-						"upsertSettings": {
-							"useTempDB": true,
-							"keys": [
-								"empid"
-							]
-						},
+						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
 					},
@@ -203,13 +197,6 @@
 											"type": "Expression"
 										},
 										"type": "String"
-									},
-									"LoadDate": {
-										"value": {
-											"value": "@formatDateTime(item().LoadDate, 'yyyy-MM-dd HH:mm:ss')",
-											"type": "Expression"
-										},
-										"type": "Datetime"
 									}
 								}
 							},
