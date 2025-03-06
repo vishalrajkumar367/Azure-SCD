@@ -148,11 +148,17 @@
 							"type": "String"
 						},
 						"gender": {
-							"value": "",
+							"value": {
+								"value": "@activity('Copy data1').output.firstRow.gender",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"LoadDate": {
-							"value": "",
+							"value": {
+								"value": "@activity('Copy data1').output.firstRow.LoadDate",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
