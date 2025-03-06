@@ -177,35 +177,24 @@
 								"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
 								"storedProcedureParameters": {
 									"country": {
-										"value": {
-											"value": "@item().country",
-											"type": "Expression"
-										},
+										"value": "",
 										"type": "String"
 									},
 									"empid": {
-										"value": {
-											"value": "@item().empid",
-											"type": "Expression"
-										},
+										"value": "",
 										"type": "Int32"
 									},
 									"empname": {
-										"value": {
-											"value": "@item().empname",
-											"type": "Expression"
-										},
+										"value": "",
 										"type": "String"
 									},
 									"gender": {
-										"value": {
-											"value": "@item().gender",
-											"type": "Expression"
-										},
+										"value": "",
 										"type": "String"
 									},
 									"LoadDate": {
-										"type": "Timespan"
+										"value": "",
+										"type": "Datetime"
 									}
 								}
 							},
