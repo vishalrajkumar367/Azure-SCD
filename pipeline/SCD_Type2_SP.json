@@ -127,15 +127,12 @@
 					"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
 					"storedProcedureParameters": {
 						"country": {
-							"value": {
-								"value": "@activity('Data flow1').output",
-								"type": "Expression"
-							},
+							"value": "",
 							"type": "String"
 						},
 						"empid": {
 							"value": "",
-							"type": "String"
+							"type": "Int32"
 						},
 						"empname": {
 							"value": "",
