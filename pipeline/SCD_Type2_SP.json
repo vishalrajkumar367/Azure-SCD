@@ -231,7 +231,7 @@
 		"variables": {
 			"LoadDate": {
 				"type": "String",
-				"defaultValue": "@utcnow()"
+				"defaultValue": "@toDate(utcnow())"
 			}
 		},
 		"annotations": []
