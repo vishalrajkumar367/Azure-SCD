@@ -139,7 +139,8 @@
 					"dataset": {
 						"referenceName": "STAGE_SCD2_SP",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
