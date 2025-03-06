@@ -191,24 +191,15 @@
 										"type": "Int32"
 									},
 									"empname": {
-										"value": {
-											"value": "@item().empname",
-											"type": "Expression"
-										},
+										"value": "",
 										"type": "String"
 									},
 									"gender": {
-										"value": {
-											"value": "@item().gender",
-											"type": "Expression"
-										},
+										"value": "",
 										"type": "String"
 									},
 									"LoadDate": {
-										"value": {
-											"value": "@item().LoadDate",
-											"type": "Expression"
-										},
+										"value": "",
 										"type": "Datetimeoffset"
 									}
 								}
