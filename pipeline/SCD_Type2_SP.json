@@ -105,8 +105,8 @@
 				]
 			},
 			{
-				"name": "Stored procedure1",
-				"type": "SqlServerStoredProcedure",
+				"name": "Lookup1",
+				"type": "Lookup",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -122,75 +122,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
-					"storedProcedureParameters": {
-						"country": {
-							"value": {
-								"value": "@activity('Copy data1').output.firstRow.country\n",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"empid": {
-							"value": {
-								"value": "@activity('Copy data1').output.firstRow.empid",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"empname": {
-							"value": {
-								"value": "@activity('Copy data1').output.firstRow.empname",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"gender": {
-							"value": {
-								"value": "@activity('Copy data1').output.firstRow.gender",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"LoadDate": {
-							"value": {
-								"value": "@activity('Copy data1').output.firstRow.LoadDate",
-								"type": "Expression"
-							},
-							"type": "String"
-						}
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "LS_SCD_Type1_SQL_DB",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
-				"name": "Data flow1",
-				"type": "ExecuteDataFlow",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "Convert_Int",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
+				"userProperties": []
 			}
 		],
 		"annotations": []
