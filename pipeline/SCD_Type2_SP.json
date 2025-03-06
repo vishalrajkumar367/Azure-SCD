@@ -127,15 +127,24 @@
 					"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
 					"storedProcedureParameters": {
 						"country": {
-							"value": "",
+							"value": {
+								"value": "@activity('Copy data1').output.firstRow.country\n",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"empid": {
-							"value": "",
+							"value": {
+								"value": "@activity('Copy data1').output.firstRow.empid",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"empname": {
-							"value": "",
+							"value": {
+								"value": "@activity('Copy data1').output.firstRow.empname",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"gender": {
