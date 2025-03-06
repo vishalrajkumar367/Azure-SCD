@@ -140,8 +140,8 @@
 				}
 			},
 			{
-				"name": "Stored procedure1",
-				"type": "SqlServerStoredProcedure",
+				"name": "ForEach1",
+				"type": "ForEach",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
@@ -150,57 +150,52 @@
 						]
 					}
 				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
-					"storedProcedureParameters": {
-						"country": {
-							"value": {
-								"value": "@activity('Lookup1').output",
-								"type": "Expression"
+					"activities": [
+						{
+							"name": "Stored procedure1",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
 							},
-							"type": "String"
-						},
-						"empid": {
-							"value": {
-								"value": "@activity('Lookup1').output",
-								"type": "Expression"
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
+								"storedProcedureParameters": {
+									"country": {
+										"value": "",
+										"type": "String"
+									},
+									"empid": {
+										"value": "",
+										"type": "Int32"
+									},
+									"empname": {
+										"value": "",
+										"type": "String"
+									},
+									"gender": {
+										"value": "",
+										"type": "String"
+									},
+									"LoadDate": {
+										"value": "",
+										"type": "Datetimeoffset"
+									}
+								}
 							},
-							"type": "Int32"
-						},
-						"empname": {
-							"value": {
-								"value": "@activity('Lookup1').output",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"gender": {
-							"value": {
-								"value": "@activity('Lookup1').output",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"LoadDate": {
-							"value": {
-								"value": "@activity('Lookup1').output",
-								"type": "Expression"
-							},
-							"type": "Datetimeoffset"
+							"linkedServiceName": {
+								"referenceName": "LS_SCD_Type1_SQL_DB",
+								"type": "LinkedServiceReference"
+							}
 						}
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "LS_SCD_Type1_SQL_DB",
-					"type": "LinkedServiceReference"
+					]
 				}
 			}
 		],
