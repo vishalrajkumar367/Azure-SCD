@@ -127,7 +127,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT * FROM StagingTable;\n",
+							"value": "SELECT * FROM dbo.EmployeeStaging;\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -137,6 +137,55 @@
 						"referenceName": "STAGE_SCD2_SP",
 						"type": "DatasetReference"
 					}
+				}
+			},
+			{
+				"name": "Stored procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[UpdateAndInsertEmployeesSCD2]",
+					"storedProcedureParameters": {
+						"country": {
+							"value": "",
+							"type": "String"
+						},
+						"empid": {
+							"value": "",
+							"type": "Int32"
+						},
+						"empname": {
+							"value": "",
+							"type": "String"
+						},
+						"gender": {
+							"value": "",
+							"type": "String"
+						},
+						"LoadDate": {
+							"value": "",
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_SCD_Type1_SQL_DB",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
