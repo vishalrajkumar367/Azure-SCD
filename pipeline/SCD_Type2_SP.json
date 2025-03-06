@@ -205,10 +205,6 @@
 										"type": "String"
 									},
 									"LoadDate": {
-										"value": {
-											"value": "@item().LoadDate",
-											"type": "Expression"
-										},
 										"type": "Datetime"
 									}
 								}
@@ -222,6 +218,17 @@
 				}
 			}
 		],
+		"parameters": {
+			"LoadDate": {
+				"type": "string",
+				"defaultValue": "@utcnow()"
+			}
+		},
+		"variables": {
+			"LoadDate": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
