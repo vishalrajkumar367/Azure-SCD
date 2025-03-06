@@ -205,11 +205,7 @@
 										"type": "String"
 									},
 									"LoadDate": {
-										"value": {
-											"value": "@pipeline().parameters.LoadDate",
-											"type": "Expression"
-										},
-										"type": "Datetime"
+										"type": "Timespan"
 									}
 								}
 							},
@@ -222,12 +218,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"LoadDate": {
-				"type": "string",
-				"defaultValue": "@utcnow()"
-			}
-		},
 		"variables": {
 			"LoadDate": {
 				"type": "String",
