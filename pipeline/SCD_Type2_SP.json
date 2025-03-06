@@ -201,6 +201,10 @@
 											"type": "Expression"
 										},
 										"type": "String"
+									},
+									"LoadDate": {
+										"value": "",
+										"type": "Timespan"
 									}
 								}
 							},
