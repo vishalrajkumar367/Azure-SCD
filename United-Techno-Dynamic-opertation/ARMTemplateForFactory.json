@@ -86,8 +86,8 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Data flow1",
-						"type": "ExecuteDataFlow",
+						"name": "Copy data1",
+						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -98,21 +98,204 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"dataflow": {
-								"referenceName": "SCD2_SP",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Employee": {},
-									"sink1": {}
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
 								}
 							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
 							},
-							"traceLevel": "Fine"
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "empid",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "empid",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "empname",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "empname",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "gender",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "gender",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "country",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "country",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SCD2CSV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STAGE_SCD2_SP",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT * FROM dbo.EmployeeStaging",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "STAGE_SCD2_SP",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup1').output.value\n",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Stored procedure1",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[UpdateAndInsertEmployeesSCD2]",
+										"storedProcedureParameters": {
+											"country": {
+												"value": {
+													"value": "@item().country",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"empid": {
+												"value": {
+													"value": "@item().empid",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"empname": {
+												"value": {
+													"value": "@item().empname",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"gender": {
+												"value": {
+													"value": "@item().gender",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_SCD_Type1_SQL_DB",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
 						}
 					}
 				],
@@ -122,7 +305,9 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/SCD2_SP')]"
+				"[concat(variables('factoryId'), '/datasets/SCD2CSV')]",
+				"[concat(variables('factoryId'), '/datasets/STAGE_SCD2_SP')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_SCD_Type1_SQL_DB')]"
 			]
 		},
 		{
@@ -329,6 +514,55 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/SCDType2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EmployeeTypeSCD2_SP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SCD_Type1_SQL_DB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "surrKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "empid",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "empname",
+						"type": "nvarchar"
+					},
+					{
+						"name": "gender",
+						"type": "nvarchar"
+					},
+					{
+						"name": "country",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsActive",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SCD2SinkTable_employee"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SCD_Type1_SQL_DB')]"
 			]
 		},
 		{
@@ -550,6 +784,45 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/STAGE_SCD2_SP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SCD_Type1_SQL_DB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "empid",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "empname",
+						"type": "varchar"
+					},
+					{
+						"name": "gender",
+						"type": "varchar"
+					},
+					{
+						"name": "country",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "EmployeeStaging"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SCD_Type1_SQL_DB')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/StagedSCDT1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -635,7 +908,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SCD2_SP')]",
+			"name": "[concat(parameters('factoryName'), '/Convert_Int')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -644,22 +917,26 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "SCD2CSV",
+								"referenceName": "STAGE_SCD2_SP",
 								"type": "DatasetReference"
 							},
-							"name": "Employee"
+							"name": "ConvertInt"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "SCD2Table",
+								"referenceName": "STAGE_SCD2_SP",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
 						}
 					],
-					"transformations": [],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						}
+					],
 					"scriptLines": [
 						"source(output(",
 						"          empid as integer,",
@@ -669,16 +946,20 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> Employee",
-						"Employee sink(allowSchemaDrift: true,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> ConvertInt",
+						"ConvertInt derive(empid = toInteger(empid),",
+						"          empname = toString(empname),",
+						"          gender = toString(gender),",
+						"          country = toString(country),",
+						"          LoadDate = currentDate()) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          surrKey as integer,",
 						"          empid as integer,",
 						"          empname as string,",
 						"          gender as string,",
-						"          country as string,",
-						"          IsActive as integer",
+						"          country as string",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -698,8 +979,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SCD2CSV')]",
-				"[concat(variables('factoryId'), '/datasets/SCD2Table')]"
+				"[concat(variables('factoryId'), '/datasets/STAGE_SCD2_SP')]"
 			]
 		},
 		{
