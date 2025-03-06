@@ -1,0 +1,14 @@
+{
+	"name": "Config-Activity",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_FeedConfig",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": []
+			}
+		],
+		"annotations": []
+	}
+}
