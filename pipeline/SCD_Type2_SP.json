@@ -209,7 +209,7 @@
 											"value": "@item().LoadDate",
 											"type": "Expression"
 										},
-										"type": "Datetimeoffset"
+										"type": "Datetime"
 									}
 								}
 							},
