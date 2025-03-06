@@ -1,0 +1,40 @@
+{
+	"name": "DS_FeedConfig",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SCDtype1Linkedservice",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "FeedMapping.csv",
+				"container": "configfiles"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SourceMappingConfigID",
+				"type": "String"
+			},
+			{
+				"name": "SourceConfigID",
+				"type": "String"
+			},
+			{
+				"name": "Feed",
+				"type": "String"
+			},
+			{
+				"name": "FeedValue",
+				"type": "String"
+			}
+		]
+	}
+}
