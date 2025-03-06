@@ -222,12 +222,6 @@
 				}
 			}
 		],
-		"variables": {
-			"LoadDate": {
-				"type": "String",
-				"defaultValue": "toDate(utcnow())"
-			}
-		},
 		"annotations": []
 	}
 }
