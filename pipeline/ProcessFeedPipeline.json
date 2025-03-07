@@ -25,7 +25,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "Lookup_SourceConfig",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -46,7 +46,7 @@
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
 										"wildcardFileName": {
-											"value": "@item().FeedName",
+											"value": "@item().Filename",
 											"type": "Expression"
 										},
 										"enablePartitionDiscovery": false
