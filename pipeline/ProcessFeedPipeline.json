@@ -7,6 +7,12 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
+						"activity": "Lookup_SourceConfig",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
 						"activity": "Lookup_FeedConfig",
 						"dependencyConditions": [
 							"Succeeded"
@@ -16,7 +22,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup_FeedConfig').output.value",
+						"value": "@activity('Lookup_SourceConfig').output.value",
 						"type": "Expression"
 					},
 					"activities": [
@@ -25,13 +31,19 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Lookup_SourceConfig",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
 								},
 								{
-									"activity": "Set variable1",
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "Set variable3",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -136,7 +148,25 @@
 							"inputs": [
 								{
 									"referenceName": "DynamicCSVforFEED",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"Filename": {
+											"value": "@variables('Filename')\n",
+											"type": "Expression"
+										},
+										"Delimiter": {
+											"value": "@item().Delimiter",
+											"type": "Expression"
+										},
+										"Folder": {
+											"value": "@item().FilePath",
+											"type": "Expression"
+										},
+										"Directory": {
+											"value": "@item().FilePath",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
@@ -180,7 +210,7 @@
 							}
 						},
 						{
-							"name": "Lookup_SourceConfig",
+							"name": "Lookup_SourceConfig21",
 							"type": "Lookup",
 							"dependsOn": [],
 							"policy": {
@@ -211,14 +241,41 @@
 						{
 							"name": "Set variable1",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Lookup_SourceConfig",
-									"dependencyConditions": [
-										"Succeeded"
-									]
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "FilePath",
+								"value": {
+									"value": "@item().FilePath",
+									"type": "Expression"
 								}
-							],
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "FeedType",
+								"value": {
+									"value": "@item().FileType",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable3",
+							"type": "SetVariable",
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
@@ -227,7 +284,7 @@
 							"typeProperties": {
 								"variableName": "Filename",
 								"value": {
-									"value": "@activity('Lookup_SourceConfig').output.value[0].Filename\n",
+									"value": "@item().Filename",
 									"type": "Expression"
 								}
 							}
@@ -238,14 +295,7 @@
 			{
 				"name": "Lookup_FeedConfig",
 				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -272,7 +322,7 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Lookup_SourceConfig",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -296,12 +346,22 @@
 					"dataset": {
 						"referenceName": "SourceConfig_DS",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
 		"variables": {
 			"Filename": {
+				"type": "String"
+			},
+			"FeedDescription": {
+				"type": "String"
+			},
+			"FilePath": {
+				"type": "String"
+			},
+			"FeedType": {
 				"type": "String"
 			}
 		},

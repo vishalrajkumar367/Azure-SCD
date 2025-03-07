@@ -1,0 +1,14 @@
+{
+	"name": "Dynamic Feed Allocation",
+	"properties": {
+		"variables": {
+			"FilePath": {
+				"type": "String"
+			},
+			"FeedType": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
