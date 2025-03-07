@@ -147,7 +147,7 @@
 								{
 									"activity": "Copy_To_Staging",
 									"dependencyConditions": [
-										"Completed"
+										"Succeeded"
 									]
 								}
 							],
