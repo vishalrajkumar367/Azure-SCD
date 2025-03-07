@@ -114,47 +114,6 @@
 							]
 						},
 						{
-							"name": "auditlog",
-							"type": "SqlServerStoredProcedure",
-							"dependsOn": [
-								{
-									"activity": "Copy_To_Staging",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"storedProcedureName": "[dbo].[InsertAuditLog]",
-								"storedProcedureParameters": {
-									"EndTime": {
-										"type": "Datetime"
-									},
-									"FeedConfigID": {
-										"type": "Int32"
-									},
-									"RowsProcessed": {
-										"type": "Int32"
-									},
-									"StartTime": {
-										"type": "Datetime"
-									}
-								}
-							},
-							"linkedServiceName": {
-								"referenceName": "LS_SCD_Type1_SQL_DB",
-								"type": "LinkedServiceReference"
-							}
-						},
-						{
 							"name": "Lookup_Feedconfig",
 							"type": "Lookup",
 							"dependsOn": [],
@@ -180,6 +139,39 @@
 									"referenceName": "FeedConfig_DS",
 									"type": "DatasetReference"
 								}
+							}
+						},
+						{
+							"name": "Update is after copy",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy_To_Staging",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[UpdateIsActiveAfterCopy]",
+								"storedProcedureParameters": {
+									"FeedConfigID": {
+										"value": "",
+										"type": "Int32"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LS_SCD_Type1_SQL_DB",
+								"type": "LinkedServiceReference"
 							}
 						}
 					]
