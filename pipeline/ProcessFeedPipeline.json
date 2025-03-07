@@ -62,10 +62,6 @@
 								},
 								"sink": {
 									"type": "AzureSqlSink",
-									"preCopyScript": {
-										"value": "SELECT      \n    '{\"type\": \"TabularTranslator\", \"mappings\": [ '      \n    + string_agg(CONVERT(nvarchar(max),      \n    '{\"source\":{ \"path\":\"' + CC.SourceColumnName + '\"},\"sink\":{\"name\":\"' + CC.TargetColumnName + '\"}}'),      \n    ','      \n    ) + ' ] } '      \n    AS ColumnMapping      \nFROM ColumnConfig CC\n",
-										"type": "Expression"
-									},
 									"writeBehavior": "upsert",
 									"upsertSettings": {
 										"useTempDB": true,
