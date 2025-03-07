@@ -45,11 +45,11 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"enablePartitionDiscovery": false,
-										"prefix": {
-											"value": "@concat(variables('Filename'))\n",
+										"wildcardFileName": {
+											"value": "@item().Filename",
 											"type": "Expression"
-										}
+										},
+										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
 										"type": "DelimitedTextReadSettings"
