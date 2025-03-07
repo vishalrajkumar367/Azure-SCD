@@ -47,7 +47,7 @@
 										"recursive": true,
 										"enablePartitionDiscovery": false,
 										"prefix": {
-											"value": "@concat('scd-type1/', variables('Filename'))\n",
+											"value": "@concat(variables('Filename'))\n",
 											"type": "Expression"
 										}
 									},
