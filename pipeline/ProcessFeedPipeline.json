@@ -11,12 +11,6 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
-					},
-					{
-						"activity": "LookupSourceconfig",
-						"dependencyConditions": [
-							"Succeeded"
-						]
 					}
 				],
 				"userProperties": [],
@@ -52,7 +46,7 @@
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
 										"wildcardFileName": {
-											"value": "@item().Filename",
+											"value": "@item().FeedName",
 											"type": "Expression"
 										},
 										"enablePartitionDiscovery": false
@@ -262,34 +256,6 @@
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "LookupSourceconfig",
-				"type": "Lookup",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"sqlReaderQuery": {
-							"value": "SELECT \n    SourceConfigID,\n    FilePath,\n    Filename,\n    FileType,\n    Delimiter\nFROM \n    dbo.SourceConfig\nWHERE \n    FileType = 'CSV' \n    AND IsActive = 1;\n",
-							"type": "Expression"
-						},
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "SourceConfig_DS",
-						"type": "DatasetReference"
-					}
 				}
 			}
 		],
