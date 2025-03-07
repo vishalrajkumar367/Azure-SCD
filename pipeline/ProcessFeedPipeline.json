@@ -221,7 +221,7 @@
 							"typeProperties": {
 								"variableName": "Filename",
 								"value": {
-									"value": "@activity('Lookup_SourceConfig').output.Filename\n",
+									"value": "@activity('Lookup_SourceConfig').output.value[0].Filename\n",
 									"type": "Expression"
 								}
 							}
