@@ -45,11 +45,8 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"enablePartitionDiscovery": false,
-										"prefix": {
-											"value": "@activity('Lookup_SourceConfig').output.Filename",
-											"type": "Expression"
-										}
+										"wildcardFileName": "*.csv",
+										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
 										"type": "DelimitedTextReadSettings"
