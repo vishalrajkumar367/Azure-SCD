@@ -25,7 +25,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Lookup_SourceConfig",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -45,8 +45,11 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"wildcardFileName": "*.csv",
-										"enablePartitionDiscovery": false
+										"enablePartitionDiscovery": false,
+										"prefix": {
+											"value": "@{if(equals(item().name, activity('Lookup_SourceConfig').output.value[0].Filename), 'Match', 'NoMatch')\n}",
+											"type": "Expression"
+										}
 									},
 									"formatSettings": {
 										"type": "DelimitedTextReadSettings"
@@ -202,12 +205,26 @@
 						{
 							"name": "Set variable1",
 							"type": "SetVariable",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Lookup_SourceConfig",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Filename",
+								"value": {
+									"value": "@activity('Lookup_SourceConfig').output.value[0].Filename\n",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
