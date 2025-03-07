@@ -9,10 +9,7 @@
 			"Directory": {
 				"type": "string"
 			},
-			"FileName": {
-				"type": "string"
-			},
-			"FilePath": {
+			"Filename": {
 				"type": "string"
 			},
 			"Delimiter": {

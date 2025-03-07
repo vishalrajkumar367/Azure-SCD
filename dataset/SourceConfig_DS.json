@@ -1,0 +1,42 @@
+{
+	"name": "SourceConfig_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SCD_Type1_SQL_DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SourceConfigID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FilePath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Filename",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FileType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Delimiter",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsActive",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SourceConfig"
+		}
+	}
+}
