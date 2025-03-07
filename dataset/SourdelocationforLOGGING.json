@@ -5,35 +5,12 @@
 			"referenceName": "SCDtype1Linkedservice",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"Directory": {
-				"type": "string"
-			},
-			"Filename": {
-				"type": "string"
-			},
-			"Delimiter": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().FileName",
-					"type": "Expression"
-				},
-				"folderPath": {
-					"value": "@dataset().Directory",
-					"type": "Expression"
-				},
 				"container": "scd-type1"
-			},
-			"columnDelimiter": {
-				"value": "@dataset().Delimiter",
-				"type": "Expression"
 			},
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
