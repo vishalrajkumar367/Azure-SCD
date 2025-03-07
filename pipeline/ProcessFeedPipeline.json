@@ -3,11 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ForEach1",
+				"name": "CopyDynamicWithIsActive1",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup_SourceConfig",
+						"activity": "Lookup_FeedConfig",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup_FeedConfig').output.value",
+						"value": "@activity('Lookup_FeedConfig').output",
 						"type": "Expression"
 					},
 					"activities": [
@@ -25,7 +25,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Lookup_Feedconfig",
+									"activity": "Lookup_SourceConfig",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -38,23 +38,18 @@
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": [
-								{
-									"name": "Source",
-									"value": "scd-type1//Employees.csv"
-								},
-								{
-									"name": "Destination",
-									"value": "dbo.employee_stage"
-								}
-							],
+							"userProperties": [],
 							"typeProperties": {
 								"source": {
 									"type": "DelimitedTextSource",
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"enablePartitionDiscovery": false
+										"enablePartitionDiscovery": false,
+										"prefix": {
+											"value": "@activity('Lookup_SourceConfig').output.value[0].Filename\n",
+											"type": "Expression"
+										}
 									},
 									"formatSettings": {
 										"type": "DelimitedTextReadSettings"
@@ -75,6 +70,56 @@
 								"enableStaging": false,
 								"translator": {
 									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "empid",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "empid",
+												"type": "Int32",
+												"physicalType": "int"
+											}
+										},
+										{
+											"source": {
+												"name": "empname",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "empname",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "gender",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "gender",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										},
+										{
+											"source": {
+												"name": "country",
+												"type": "String",
+												"physicalType": "String"
+											},
+											"sink": {
+												"name": "country",
+												"type": "String",
+												"physicalType": "nvarchar"
+											}
+										}
+									],
 									"typeConversion": true,
 									"typeConversionSettings": {
 										"allowDataTruncation": true,
@@ -84,22 +129,8 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "SourdelocationforLOGGING",
-									"type": "DatasetReference",
-									"parameters": {
-										"Directory": {
-											"value": "@item().Directory",
-											"type": "Expression"
-										},
-										"Filename": {
-											"value": "@item().Filename",
-											"type": "Expression"
-										},
-										"Delimiter": {
-											"value": "@item().Delimiter",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "DynamicCSVforFEED",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
@@ -110,41 +141,13 @@
 							]
 						},
 						{
-							"name": "Lookup_Feedconfig",
-							"type": "Lookup",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "AzureSqlSource",
-									"sqlReaderQuery": {
-										"value": "SELECT * FROM FeedConfig WHERE IsActive = 1",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "FeedConfig_DS",
-									"type": "DatasetReference"
-								}
-							}
-						},
-						{
 							"name": "Update is after copy",
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
 									"activity": "Copy_To_Staging",
 									"dependencyConditions": [
-										"Succeeded"
+										"Completed"
 									]
 								}
 							],
@@ -169,12 +172,41 @@
 								"referenceName": "LS_SCD_Type1_SQL_DB",
 								"type": "LinkedServiceReference"
 							}
+						},
+						{
+							"name": "Lookup_SourceConfig",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "SELECT \n    SourceConfigID,\n    FilePath,\n    Filename,\n    FileType,\n    Delimiter\nFROM \n    dbo.SourceConfig\nWHERE \n    FileType = 'CSV' \n    AND IsActive = 1;\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "SourceConfig_DS",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
+							}
 						}
 					]
 				}
 			},
 			{
-				"name": "Lookup_SourceConfig",
+				"name": "Lookup_FeedConfig",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -188,16 +220,29 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT \n    f.FeedConfigID,\n    f.SourceConfigID,\n    f.FeedName,\n    f.FeedDescription,\n    f.FeedType,\n    f.StageSchemaName,\n    f.StageTableName,\n    f.RawSchemaName,\n    f.RawTableName,\n    f.ProcedureName,\n    f.IsActive\nFROM \n    dbo.FeedConfig f\nJOIN \n    dbo.SourceConfig s \nON \n    f.SourceConfigID = s.SourceConfigID\nWHERE \n    s.SourceConfigID = s.SourceConfigID;\n",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "SourceConfig_DS",
+						"referenceName": "FeedConfig_DS",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
+		"variables": {
+			"Filename": {
+				"type": "String"
+			},
+			"FileType": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
