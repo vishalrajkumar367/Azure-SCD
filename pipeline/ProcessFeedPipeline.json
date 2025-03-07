@@ -45,7 +45,10 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"wildcardFileName": "*.csv",
+										"wildcardFileName": {
+											"value": "@concat('scd-type1/', variables('Filename'))",
+											"type": "Expression"
+										},
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
