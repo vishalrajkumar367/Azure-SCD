@@ -1,0 +1,40 @@
+{
+	"name": "StageTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SCD_Type1_SQL_DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "empid",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "empname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "gender",
+				"type": "nvarchar"
+			},
+			{
+				"name": "country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "load_date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "employee_stage"
+		}
+	}
+}

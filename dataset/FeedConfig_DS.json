@@ -1,0 +1,79 @@
+{
+	"name": "FeedConfig_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SCD_Type1_SQL_DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FeedConfigID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceConfigID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FeedName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FeedDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FeedType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StageSchemaName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StageTableName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RawSchemaName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RawTableName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WhatProcedure",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsActive",
+				"type": "bit"
+			},
+			{
+				"name": "Directory",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WhatFilename",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Delimiter",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Folder",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FeedConfig"
+		}
+	}
+}

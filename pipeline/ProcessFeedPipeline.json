@@ -1,22 +1,9 @@
 {
-	"name": "Config-Activity",
+	"name": "ProcessFeedPipeline",
 	"properties": {
 		"activities": [
 			{
-				"name": "ForEach_FeedConfig",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Lookup_SourceConfig",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": []
-			},
-			{
-				"name": "Lookup_SourceConfig",
+				"name": "Lookup_FeedConfig",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -26,7 +13,175 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT * FROM FeedConfig WHERE IsActive = 1\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "FeedConfig_DS",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup_FeedConfig",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup_FeedConfig').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_To_Staging",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "scd-type1//Employees.csv"
+								},
+								{
+									"name": "Destination",
+									"value": "dbo.employee_stage"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"preCopyScript": {
+										"value": "SELECT      \n    '{\"type\": \"TabularTranslator\", \"mappings\": [ '      \n    + string_agg(CONVERT(nvarchar(max),      \n    '{\"source\":{ \"path\":\"' + CC.SourceColumnName + '\"},\"sink\":{\"name\":\"' + CC.TargetColumnName + '\"}}'),      \n    ','      \n    ) + ' ] } '      \n    AS ColumnMapping      \nFROM ColumnConfig CC\n",
+										"type": "Expression"
+									},
+									"writeBehavior": "upsert",
+									"upsertSettings": {
+										"useTempDB": true,
+										"keys": [
+											"empid"
+										]
+									},
+									"sqlWriterUseTableLock": false,
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "SourdelocationforLOGGING",
+									"type": "DatasetReference",
+									"parameters": {
+										"Directory": {
+											"value": "@item().Directory",
+											"type": "Expression"
+										},
+										"FileName": {
+											"value": "@item().FileName",
+											"type": "Expression"
+										},
+										"FilePath": {
+											"value": "@item().FilePath",
+											"type": "Expression"
+										},
+										"Delimiter": {
+											"value": "@item().Delimiter",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "StageTable",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "auditlog",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy_To_Staging",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[InsertAuditLog]",
+								"storedProcedureParameters": {
+									"EndTime": {
+										"type": "Datetime"
+									},
+									"FeedConfigID": {
+										"type": "Int32"
+									},
+									"RowsProcessed": {
+										"type": "Int32"
+									},
+									"StartTime": {
+										"type": "Datetime"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LS_SCD_Type1_SQL_DB",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
 			}
 		],
 		"annotations": []
