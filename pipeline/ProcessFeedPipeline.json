@@ -29,6 +29,12 @@
 									"dependencyConditions": [
 										"Succeeded"
 									]
+								},
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
 							],
 							"policy": {
