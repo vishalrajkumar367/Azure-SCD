@@ -132,6 +132,13 @@
 											"type": "Expression"
 										},
 										"type": "Datetime"
+									},
+									"IsActive": {
+										"value": {
+											"value": "@item().IsActive",
+											"type": "Expression"
+										},
+										"type": "Boolean"
 									}
 								}
 							},
