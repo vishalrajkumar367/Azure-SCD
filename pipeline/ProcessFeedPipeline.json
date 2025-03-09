@@ -227,7 +227,7 @@
 								"storedProcedureParameters": {
 									"FeedID": {
 										"value": "",
-										"type": "String"
+										"type": "Int32"
 									}
 								}
 							},
@@ -289,7 +289,7 @@
 					"storedProcedureParameters": {
 						"FeedConfigID": {
 							"value": "",
-							"type": "String"
+							"type": "Int32"
 						}
 					}
 				},
