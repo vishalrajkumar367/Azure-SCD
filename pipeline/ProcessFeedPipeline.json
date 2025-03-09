@@ -131,6 +131,14 @@
 										"Filename": {
 											"value": "@activity('Lookup_FeedConfig').output.value[0].FeedDescription",
 											"type": "Expression"
+										},
+										"Folder": {
+											"value": "@activity('Lookup_FeedConfig').output.value[0].FolderPath",
+											"type": "Expression"
+										},
+										"Directory": {
+											"value": "@activity('Lookup_FeedConfig').output.value[0].Foldername",
+											"type": "Expression"
 										}
 									}
 								}
