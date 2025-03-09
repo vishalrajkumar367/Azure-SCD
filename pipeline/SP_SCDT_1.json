@@ -49,7 +49,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT * FROM dbo.FinalUpdateSCD1",
+							"value": "SELECT * FROM dbo.ProjectResultsRaw",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
