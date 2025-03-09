@@ -125,6 +125,13 @@
 											"type": "Expression"
 										},
 										"type": "Datetime"
+									},
+									"EndDate": {
+										"value": {
+											"value": "@item().EndDate",
+											"type": "Expression"
+										},
+										"type": "Datetime"
 									}
 								}
 							},
