@@ -200,7 +200,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "SELECT * \nFROM dbo.FeedConfig \nWHERE SourceConfigID = @item().SourceConfigID\n",
+										"value": "SELECT * \nFROM dbo.FeedConfig \nWHERE SourceConfigID = @{item().SourceConfigID}\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
