@@ -119,9 +119,9 @@
 										},
 										"type": "String"
 									},
-									"Loaddate": {
+									"LoadDate": {
 										"value": {
-											"value": "@item().load_date",
+											"value": "@item().loadDate",
 											"type": "Expression"
 										},
 										"type": "Datetime"
