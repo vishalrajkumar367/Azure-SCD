@@ -202,6 +202,32 @@
 								},
 								"waitOnCompletion": true
 							}
+						},
+						{
+							"name": "Upsertcolumns",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[Upsert_ColumnConfigMapping]",
+								"storedProcedureParameters": {
+									"FeedID": {
+										"value": "",
+										"type": "Int32"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LS_SCD_Type1_SQL_DB",
+								"type": "LinkedServiceReference"
+							}
 						}
 					]
 				}
@@ -235,14 +261,7 @@
 			{
 				"name": "UpdateTheLogs",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [
-					{
-						"activity": "Column_Mapping",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -263,38 +282,6 @@
 				"linkedServiceName": {
 					"referenceName": "LS_SCD_Type1_SQL_DB",
 					"type": "LinkedServiceReference"
-				}
-			},
-			{
-				"name": "Column_Mapping",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "CopyDynamicWithIsActive1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "ColumnMapping",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
 				}
 			}
 		],
