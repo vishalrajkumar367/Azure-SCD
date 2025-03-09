@@ -23,26 +23,7 @@
 						{
 							"name": "Copy_To_Staging",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Set variable1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
-									"activity": "Set variable2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
-									"activity": "Set variable3",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -231,57 +212,6 @@
 								},
 								"firstRowOnly": false
 							}
-						},
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "FilePath",
-								"value": {
-									"value": "@item().FilePath",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Set variable2",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "FeedType",
-								"value": {
-									"value": "@item().FileType",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Set variable3",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "Filename",
-								"value": {
-									"value": "@item().Filename",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
@@ -301,10 +231,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": {
-							"value": "SELECT \n    SourceConfigID,\n    FilePath,\n    Filename,\n    FileType,\n    Delimiter\nFROM \n    dbo.SourceConfig\nWHERE \n    FileType = 'CSV' \n    AND IsActive = 1;\n",
-							"type": "Expression"
-						},
+						"sqlReaderStoredProcedureName": "[dbo].[GetActiveCSVSourceConfig_DynamicUpdate]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
