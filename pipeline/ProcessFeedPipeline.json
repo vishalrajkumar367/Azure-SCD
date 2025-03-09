@@ -227,7 +227,7 @@
 								"storedProcedureParameters": {
 									"FeedID": {
 										"value": {
-											"value": "@variables('FeedID_Variable')\n",
+											"value": "\r\n@variables('FeedID_Variable')",
 											"type": "Expression"
 										},
 										"type": "Int32"
@@ -256,9 +256,9 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "FeedConfigID",
+								"variableName": "FeedID_Variable",
 								"value": {
-									"value": "@activity('Lookup_FeedConfig').output.value[0].FeedConfigID",
+									"value": "@int(activity('Lookup_FeedConfig').output.value[0].FeedConfigID)",
 									"type": "Expression"
 								}
 							}
@@ -340,6 +340,9 @@
 				"type": "String"
 			},
 			"FeedConfigID": {
+				"type": "Integer"
+			},
+			"FeedID_Variable": {
 				"type": "Integer"
 			}
 		},
