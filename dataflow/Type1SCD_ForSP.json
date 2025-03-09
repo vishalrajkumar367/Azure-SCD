@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "SCDT1",
+						"referenceName": "StageTable",
 						"type": "DatasetReference"
 					},
 					"name": "SCDSource"
@@ -24,14 +24,16 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
-				"          CustomerID as integer,",
-				"          Name as string,",
-				"          Email as string,",
-				"          LoadDate as date",
+				"          empid as integer,",
+				"          empname as string,",
+				"          gender as string,",
+				"          country as string,",
+				"          load_date as timestamp",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> SCDSource",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SCDSource",
 				"SCDSource sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
