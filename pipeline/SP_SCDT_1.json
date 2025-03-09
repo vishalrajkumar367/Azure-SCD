@@ -92,7 +92,10 @@
 								"storedProcedureName": "[dbo].[Upsert_CustomerData]",
 								"storedProcedureParameters": {
 									"country": {
-										"value": "",
+										"value": {
+											"value": "@item().country",
+											"type": "Expression"
+										},
 										"type": "String"
 									},
 									"empid": {
