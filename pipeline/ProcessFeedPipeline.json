@@ -227,7 +227,7 @@
 								"storedProcedureParameters": {
 									"FeedID": {
 										"value": "",
-										"type": "String"
+										"type": "Int32"
 									}
 								}
 							},
