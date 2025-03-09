@@ -118,6 +118,10 @@
 											"type": "Expression"
 										},
 										"type": "String"
+									},
+									"load_date": {
+										"value": "@",
+										"type": "Datetime"
 									}
 								}
 							},
