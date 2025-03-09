@@ -100,21 +100,21 @@
 									},
 									"empname": {
 										"value": {
-											"value": "@item().Email\n",
+											"value": "@item().name",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"gender": {
 										"value": {
-											"value": "@formatDateTime(item().LoadDate, 'yyyy-MM-dd HH:mm:ss')\n",
+											"value": "@item().gender",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"country": {
 										"value": {
-											"value": "@item().Name",
+											"value": "@item().country",
 											"type": "Expression"
 										},
 										"type": "String"
