@@ -126,25 +126,7 @@
 							"inputs": [
 								{
 									"referenceName": "DynamicCSVforFEED",
-									"type": "DatasetReference",
-									"parameters": {
-										"Filename": {
-											"value": "@variables('Filename')\n",
-											"type": "Expression"
-										},
-										"Delimiter": {
-											"value": "@item().Delimiter",
-											"type": "Expression"
-										},
-										"Folder": {
-											"value": "@item().FilePath",
-											"type": "Expression"
-										},
-										"Directory": {
-											"value": "@item().FilePath",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
