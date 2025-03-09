@@ -185,7 +185,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "SELECT \n    SourceConfigID,\n    FilePath,\n    Filename,\n    FileType,\n    Delimiter\nFROM \n    dbo.SourceConfig\nWHERE \n    FileType = 'CSV' \n    AND IsActive = 1;\n",
+										"value": "SELECT \n    f.FeedConfigID,\n    f.SourceConfigID,\n    f.FeedName,\n    f.FeedDescription,\n    f.FeedType,\n    f.StageSchemaName,\n    f.StageTableName,\n    f.RawSchemaName,\n    f.RawTableName,\n    f.ProcedureName,\n    f.IsActive,\n    f.FolderName,\n    f.FolderPath\nFROM dbo.FeedConfig f\nWHERE f.SourceConfigID = @{activity('Lookup_SourceConfig').output.firstRow.SourceConfigID}\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
