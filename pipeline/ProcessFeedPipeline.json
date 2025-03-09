@@ -61,7 +61,6 @@
 										]
 									},
 									"sqlWriterUseTableLock": false,
-									"tableOption": "autoCreate",
 									"disableMetricsCollection": false
 								},
 								"enableStaging": false,
@@ -175,7 +174,7 @@
 								"storedProcedureParameters": {
 									"FeedConfigID": {
 										"value": "",
-										"type": "String"
+										"type": "Int32"
 									}
 								}
 							},
