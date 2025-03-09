@@ -10,7 +10,9 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "customers.csv"
+				"fileName": "ProjectResultRaw.csv",
+				"folderPath": "Azure Training Final",
+				"container": "scd-type1"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
