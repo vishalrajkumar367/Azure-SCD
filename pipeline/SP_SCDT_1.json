@@ -119,7 +119,7 @@
 										},
 										"type": "String"
 									},
-									"load_date": {
+									"LoadDate": {
 										"value": {
 											"value": "@item().load_date",
 											"type": "Expression"
