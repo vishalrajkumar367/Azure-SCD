@@ -21,7 +21,11 @@
 					"name": "StagingSCD1Data"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "AlterRow1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          empid as integer,",
@@ -34,12 +38,14 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> SCDSource",
-				"SCDSource sink(allowSchemaDrift: true,",
+				"SCDSource alterRow() ~> AlterRow1",
+				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:false,",
+				"     upsertable:true,",
+				"     keys:['empid'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
