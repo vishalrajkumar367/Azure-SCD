@@ -121,7 +121,7 @@
 									},
 									"LoadDate": {
 										"value": {
-											"value": "@item().load_date",
+											"value": "@item().LoadDate",
 											"type": "Expression"
 										},
 										"type": "Datetime"
