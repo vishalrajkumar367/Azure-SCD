@@ -91,28 +91,28 @@
 							"typeProperties": {
 								"storedProcedureName": "[dbo].[Upsert_CustomerData]",
 								"storedProcedureParameters": {
-									"CustomerID": {
+									"empid": {
 										"value": {
-											"value": "@item().CustomerID\n",
+											"value": "@item().empid",
 											"type": "Expression"
 										},
 										"type": "Int32"
 									},
-									"Email": {
+									"empname": {
 										"value": {
 											"value": "@item().Email\n",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
-									"LoadDate": {
+									"gender": {
 										"value": {
 											"value": "@formatDateTime(item().LoadDate, 'yyyy-MM-dd HH:mm:ss')\n",
 											"type": "Expression"
 										},
-										"type": "Datetime"
+										"type": "String"
 									},
-									"Name": {
+									"country": {
 										"value": {
 											"value": "@item().Name",
 											"type": "Expression"
