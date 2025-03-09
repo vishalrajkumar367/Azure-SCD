@@ -227,7 +227,7 @@
 								"storedProcedureParameters": {
 									"FeedID": {
 										"value": {
-											"value": "\r\n@variables('FeedID_Variable')",
+											"value": "@variables('FeedID_Variable')",
 											"type": "Expression"
 										},
 										"type": "Int32"
