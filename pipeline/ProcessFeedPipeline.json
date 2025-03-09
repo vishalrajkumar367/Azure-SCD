@@ -212,6 +212,12 @@
 									"dependencyConditions": [
 										"Succeeded"
 									]
+								},
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
 							],
 							"policy": {
@@ -253,8 +259,11 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "",
-								"value": ""
+								"variableName": "FeedConfigID",
+								"value": {
+									"value": "@activity('Lookup_FeedConfig').output.value[0].FeedConfigID",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -332,6 +341,9 @@
 			},
 			"FeedType": {
 				"type": "String"
+			},
+			"FeedConfigID": {
+				"type": "Integer"
 			}
 		},
 		"annotations": []
