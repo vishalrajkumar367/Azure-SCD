@@ -77,7 +77,7 @@
 					},
 					"activities": [
 						{
-							"name": "Stored procedure2",
+							"name": "Stored procedure FOR RAW",
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [],
 							"policy": {
