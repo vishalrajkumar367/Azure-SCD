@@ -11,12 +11,6 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
-					},
-					{
-						"activity": "Lookup_FeedConfig",
-						"dependencyConditions": [
-							"Succeeded"
-						]
 					}
 				],
 				"userProperties": [],
@@ -290,35 +284,6 @@
 							}
 						}
 					]
-				}
-			},
-			{
-				"name": "Lookup_FeedConfig",
-				"type": "Lookup",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"sqlReaderQuery": {
-							"value": "SELECT \n    f.FeedConfigID,\n    f.SourceConfigID,\n    f.FeedName,\n    f.FeedDescription,\n    f.FeedType,\n    f.StageSchemaName,\n    f.StageTableName,\n    f.RawSchemaName,\n    f.RawTableName,\n    f.ProcedureName,\n    f.IsActive\nFROM \n    dbo.FeedConfig f\nJOIN \n    dbo.SourceConfig s \nON \n    f.SourceConfigID = s.SourceConfigID\nWHERE \n    s.SourceConfigID = s.SourceConfigID;\n",
-							"type": "Expression"
-						},
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "FeedConfig_DS",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
 				}
 			},
 			{
