@@ -212,6 +212,28 @@
 								},
 								"firstRowOnly": false
 							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "pipelineReturnValue",
+								"value": [
+									{
+										"key": "SourceConfigID",
+										"value": {
+											"type": "String"
+										}
+									}
+								],
+								"setSystemVariable": true
+							}
 						}
 					]
 				}
