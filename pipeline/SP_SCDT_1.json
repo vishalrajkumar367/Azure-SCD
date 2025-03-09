@@ -100,7 +100,7 @@
 									},
 									"empname": {
 										"value": {
-											"value": "@item().name",
+											"value": "@item().empname",
 											"type": "Expression"
 										},
 										"type": "String"
