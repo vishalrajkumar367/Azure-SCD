@@ -237,7 +237,7 @@
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Column_Mapping",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -266,7 +266,7 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Column_Mapping",
 				"type": "Lookup",
 				"dependsOn": [
 					{
