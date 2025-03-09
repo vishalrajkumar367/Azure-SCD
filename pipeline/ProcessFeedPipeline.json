@@ -155,7 +155,7 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "Execute Pipeline1",
+									"activity": "Execute Pipeline Raw Processing",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -213,7 +213,7 @@
 							}
 						},
 						{
-							"name": "Execute Pipeline1",
+							"name": "Execute Pipeline Raw Processing",
 							"type": "ExecutePipeline",
 							"dependsOn": [
 								{
@@ -228,6 +228,10 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
+								"pipeline": {
+									"referenceName": "SP_SCDT_1",
+									"type": "PipelineReference"
+								},
 								"waitOnCompletion": true
 							}
 						}
