@@ -1,0 +1,39 @@
+{
+	"name": "ColumnMapping",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SCD_Type1_SQL_DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ColumnConfigID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FeedID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceColumnName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TargetColumnName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsActive",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ColumnConfig"
+		}
+	}
+}

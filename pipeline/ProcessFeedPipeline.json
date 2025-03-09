@@ -237,7 +237,7 @@
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "CopyDynamicWithIsActive1",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -268,7 +268,14 @@
 			{
 				"name": "Lookup1",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "CopyDynamicWithIsActive1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -284,7 +291,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "FeedConfig_DS",
+						"referenceName": "ColumnMapping",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
