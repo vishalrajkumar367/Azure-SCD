@@ -226,7 +226,10 @@
 								"storedProcedureName": "[dbo].[Upsert_ColumnConfigMapping]",
 								"storedProcedureParameters": {
 									"FeedID": {
-										"value": "",
+										"value": {
+											"value": "@variables('FeedID_Variable')\n",
+											"type": "Expression"
+										},
 										"type": "Int32"
 									}
 								}
