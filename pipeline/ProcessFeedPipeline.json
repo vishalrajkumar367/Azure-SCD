@@ -126,7 +126,13 @@
 							"inputs": [
 								{
 									"referenceName": "DynamicCSVforFEED",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"Filename": {
+											"value": "@activity('Lookup_FeedConfig').output.value[0].FeedDescription",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
