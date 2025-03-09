@@ -91,6 +91,10 @@
 							"typeProperties": {
 								"storedProcedureName": "[dbo].[Upsert_CustomerData]",
 								"storedProcedureParameters": {
+									"country": {
+										"value": "",
+										"type": "String"
+									},
 									"empid": {
 										"value": {
 											"value": "@item().empid",
@@ -112,33 +116,12 @@
 										},
 										"type": "String"
 									},
-									"country": {
+									"Loaddate": {
 										"value": {
-											"value": "@item().country",
-											"type": "Expression"
-										},
-										"type": "String"
-									},
-									"LoadDate": {
-										"value": {
-											"value": "@item().LoadDate",
+											"value": "@item().load_date",
 											"type": "Expression"
 										},
 										"type": "Datetime"
-									},
-									"EndDate": {
-										"value": {
-											"value": "@item().EndDate",
-											"type": "Expression"
-										},
-										"type": "Datetime"
-									},
-									"IsActive": {
-										"value": {
-											"value": "@item().IsActive",
-											"type": "Expression"
-										},
-										"type": "Boolean"
 									}
 								}
 							},
