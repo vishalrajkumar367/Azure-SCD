@@ -19,6 +19,7 @@
 						"value": "@activity('Lookup_SourceConfig').output.value",
 						"type": "Expression"
 					},
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "Copy_To_Staging",
@@ -174,7 +175,7 @@
 								"storedProcedureParameters": {
 									"FeedConfigID": {
 										"value": "",
-										"type": "Int32"
+										"type": "String"
 									}
 								}
 							},
