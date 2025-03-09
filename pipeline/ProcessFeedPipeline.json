@@ -23,7 +23,14 @@
 						{
 							"name": "Copy_To_Staging",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Lookup_FeedConfig",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -38,10 +45,6 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"wildcardFileName": {
-											"value": "@item().Filename",
-											"type": "Expression"
-										},
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -185,7 +188,7 @@
 							}
 						},
 						{
-							"name": "Lookup_SourceConfig21",
+							"name": "Lookup_FeedConfig",
 							"type": "Lookup",
 							"dependsOn": [],
 							"policy": {
