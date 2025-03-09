@@ -208,12 +208,6 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "Execute Pipeline Raw Processing",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
 									"activity": "FeedID_Variable",
 									"dependencyConditions": [
 										"Succeeded"
