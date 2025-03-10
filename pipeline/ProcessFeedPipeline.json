@@ -258,6 +258,19 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT SourceColumnName, TargetColumnName \nFROM dbo.ColumnConfig \nWHERE SourceID = @pipeline().parameters.SourceID \nAND IsActive = 1;\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ColumnMapping",
+						"type": "DatasetReference"
+					},
 					"firstRowOnly": false
 				}
 			}
