@@ -30,6 +30,12 @@
 									"dependencyConditions": [
 										"Succeeded"
 									]
+								},
+								{
+									"activity": "FeedID_Variable",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
 							],
 							"policy": {
@@ -208,7 +214,7 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "FeedID_Variable",
+									"activity": "Execute Pipeline Raw Processing",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -227,7 +233,7 @@
 								"storedProcedureParameters": {
 									"FeedID": {
 										"value": {
-											"value": "@variables('FeedID_Variable')",
+											"value": "@activity('Execute Pipeline Raw Processing').output.value",
 											"type": "Expression"
 										},
 										"type": "Int32"
@@ -244,7 +250,7 @@
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Execute Pipeline Raw Processing",
+									"activity": "Lookup_FeedConfig",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -256,9 +262,9 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "FeedID_Variable",
+								"variableName": "FeedConfigIDMain",
 								"value": {
-									"value": "@int(activity('Lookup_FeedConfig').output.value[0].FeedConfigID)",
+									"value": "@activity('Lookup_FeedConfig').output.FeedConfigID.value[0]\n",
 									"type": "Expression"
 								}
 							}
@@ -344,6 +350,9 @@
 			},
 			"FeedID_Variable": {
 				"type": "Integer"
+			},
+			"FeedConfigIDMain": {
+				"type": "String"
 			}
 		},
 		"annotations": []
