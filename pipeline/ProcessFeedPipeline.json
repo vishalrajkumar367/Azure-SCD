@@ -30,12 +30,6 @@
 									"dependencyConditions": [
 										"Succeeded"
 									]
-								},
-								{
-									"activity": "FeedID_Variable",
-									"dependencyConditions": [
-										"Succeeded"
-									]
 								}
 							],
 							"policy": {
@@ -233,7 +227,7 @@
 								"storedProcedureParameters": {
 									"FeedID": {
 										"value": {
-											"value": "@activity('Execute Pipeline Raw Processing').output.value",
+											"value": "@item().FeedConfigID",
 											"type": "Expression"
 										},
 										"type": "Int32"
@@ -243,30 +237,6 @@
 							"linkedServiceName": {
 								"referenceName": "LS_SCD_Type1_SQL_DB",
 								"type": "LinkedServiceReference"
-							}
-						},
-						{
-							"name": "FeedID_Variable",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Lookup_FeedConfig",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "FeedConfigIDMain",
-								"value": {
-									"value": "@activity('Lookup_FeedConfig').output.FeedConfigID.value[0]\n",
-									"type": "Expression"
-								}
 							}
 						}
 					]
