@@ -225,7 +225,7 @@
 							"typeProperties": {
 								"storedProcedureName": "[dbo].[Upsert_ColumnConfigMapping]",
 								"storedProcedureParameters": {
-									"FeedID": {
+									"SourceID": {
 										"value": {
 											"value": "@item().SourceConfigID",
 											"type": "Expression"
