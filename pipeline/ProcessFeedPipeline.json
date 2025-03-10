@@ -314,11 +314,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[UpdateIsActiveAfterCopy]",
-					"storedProcedureParameters": {
-						"value": "@activity('Lookup_FeedConfig').output",
-						"type": "Expression"
-					}
+					"storedProcedureName": "[dbo].[UpdateIsActiveAfterCopy]"
 				},
 				"linkedServiceName": {
 					"referenceName": "LS_SCD_Type1_SQL_DB",
