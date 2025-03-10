@@ -67,56 +67,6 @@
 								"enableStaging": false,
 								"translator": {
 									"type": "TabularTranslator",
-									"mappings": [
-										{
-											"source": {
-												"name": "empid",
-												"type": "String",
-												"physicalType": "String"
-											},
-											"sink": {
-												"name": "empid",
-												"type": "Int32",
-												"physicalType": "int"
-											}
-										},
-										{
-											"source": {
-												"name": "empname",
-												"type": "String",
-												"physicalType": "String"
-											},
-											"sink": {
-												"name": "empname",
-												"type": "String",
-												"physicalType": "nvarchar"
-											}
-										},
-										{
-											"source": {
-												"name": "gender",
-												"type": "String",
-												"physicalType": "String"
-											},
-											"sink": {
-												"name": "gender",
-												"type": "String",
-												"physicalType": "nvarchar"
-											}
-										},
-										{
-											"source": {
-												"name": "country",
-												"type": "String",
-												"physicalType": "String"
-											},
-											"sink": {
-												"name": "country",
-												"type": "String",
-												"physicalType": "nvarchar"
-											}
-										}
-									],
 									"typeConversion": true,
 									"typeConversionSettings": {
 										"allowDataTruncation": true,
