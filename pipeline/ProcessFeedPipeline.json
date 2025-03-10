@@ -295,7 +295,7 @@
 				}
 			},
 			{
-				"name": "Update ",
+				"name": "UpdateALL",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
