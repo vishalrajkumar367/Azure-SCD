@@ -246,7 +246,7 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Lookup_ColumnConfig",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -256,7 +256,10 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"firstRowOnly": false
+				}
 			}
 		],
 		"variables": {
