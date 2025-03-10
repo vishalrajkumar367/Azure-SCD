@@ -313,6 +313,31 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[Upsert_CustomerData]",
+					"storedProcedureParameters": {
+						"country": {
+							"value": "",
+							"type": "String"
+						},
+						"empid": {
+							"value": "",
+							"type": "Int32"
+						},
+						"empname": {
+							"value": "",
+							"type": "String"
+						},
+						"gender": {
+							"value": "",
+							"type": "String"
+						},
+						"Loaddate": {
+							"value": "",
+							"type": "DateTime"
+						}
+					}
+				},
 				"linkedServiceName": {
 					"referenceName": "LS_SCD_Type1_SQL_DB",
 					"type": "LinkedServiceReference"
