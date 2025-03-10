@@ -314,28 +314,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[Upsert_CustomerData]",
+					"storedProcedureName": "[dbo].[UpdateIsActiveAfterCopy]",
 					"storedProcedureParameters": {
-						"country": {
-							"value": "",
-							"type": "String"
-						},
-						"empid": {
-							"value": "",
-							"type": "Int32"
-						},
-						"empname": {
-							"value": "",
-							"type": "String"
-						},
-						"gender": {
-							"value": "",
-							"type": "String"
-						},
-						"Loaddate": {
-							"value": "",
-							"type": "DateTime"
-						}
+						"value": "@activity('Lookup_FeedConfig').output",
+						"type": "Expression"
 					}
 				},
 				"linkedServiceName": {
