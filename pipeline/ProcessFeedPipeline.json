@@ -240,9 +240,16 @@
 							}
 						},
 						{
-							"name": "Stored procedure1",
+							"name": "Update logs",
 							"type": "SqlServerStoredProcedure",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Upsertcolumns",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -250,7 +257,20 @@
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[UpdateIsActiveAfterCopy]",
+								"storedProcedureParameters": {
+									"FeedConfigID": {
+										"value": "",
+										"type": "Int32"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LS_SCD_Type1_SQL_DB",
+								"type": "LinkedServiceReference"
+							}
 						}
 					]
 				}
@@ -279,39 +299,6 @@
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "UpdateTheLogs",
-				"type": "SqlServerStoredProcedure",
-				"dependsOn": [
-					{
-						"activity": "CopyDynamicWithIsActive1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[dbo].[UpdateIsActiveAfterCopy]",
-					"storedProcedureParameters": {
-						"FeedConfigID": {
-							"value": "",
-							"type": "Int32"
-						}
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "LS_SCD_Type1_SQL_DB",
-					"type": "LinkedServiceReference"
 				}
 			}
 		],
