@@ -22,75 +22,6 @@
 					"isSequential": false,
 					"activities": [
 						{
-							"name": "Copy_To_Staging",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "AzureBlobStorageReadSettings",
-										"recursive": true,
-										"enablePartitionDiscovery": false
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
-								},
-								"sink": {
-									"type": "AzureSqlSink",
-									"writeBehavior": "upsert",
-									"upsertSettings": {
-										"useTempDB": true,
-										"keys": [
-											"empid"
-										]
-									},
-									"sqlWriterUseTableLock": false,
-									"disableMetricsCollection": false
-								},
-								"enableStaging": false,
-								"translator": {
-									"value": "@activity('Lookup_ColumnConfig').output.value\n",
-									"type": "Expression"
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "DynamicCSVforFEED",
-									"type": "DatasetReference",
-									"parameters": {
-										"Filename": {
-											"value": "@activity('Lookup_FeedConfig').output.value[0].FeedDescription",
-											"type": "Expression"
-										},
-										"Folder": {
-											"value": "@activity('Lookup_FeedConfig').output.value[0].FolderPath",
-											"type": "Expression"
-										},
-										"Directory": {
-											"value": "@activity('Lookup_FeedConfig').output.value[0].FolderName",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "StageTable",
-									"type": "DatasetReference"
-								}
-							]
-						},
-						{
 							"name": "Lookup_FeedConfig",
 							"type": "Lookup",
 							"dependsOn": [],
@@ -122,14 +53,7 @@
 						{
 							"name": "Execute Pipeline Raw Processing",
 							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "Copy_To_Staging",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"secureInput": false
 							},
@@ -314,6 +238,29 @@
 												"type": "DatasetReference"
 											}
 										]
+									},
+									{
+										"name": "Execute Pipeline that does SCD",
+										"type": "ExecutePipeline",
+										"dependsOn": [
+											{
+												"activity": "Copy data1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"pipeline": {
+												"referenceName": "SP_SCDT_1",
+												"type": "PipelineReference"
+											},
+											"waitOnCompletion": true
+										}
 									}
 								]
 							}
