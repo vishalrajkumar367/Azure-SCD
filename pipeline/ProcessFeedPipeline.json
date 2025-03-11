@@ -264,8 +264,56 @@
 										},
 										"userProperties": [],
 										"typeProperties": {
-											"enableStaging": false
-										}
+											"source": {
+												"type": "DelimitedTextSource",
+												"storeSettings": {
+													"type": "AzureBlobStorageReadSettings",
+													"recursive": true,
+													"enablePartitionDiscovery": false
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings"
+												}
+											},
+											"sink": {
+												"type": "AzureSqlSink",
+												"writeBehavior": "upsert",
+												"upsertSettings": {
+													"useTempDB": true,
+													"keys": [
+														"empid"
+													]
+												},
+												"sqlWriterUseTableLock": false,
+												"disableMetricsCollection": false
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "DynamicCSVforFEED",
+												"type": "DatasetReference",
+												"parameters": {
+													"Filename": "@activity('Lookup_FeedConfig').output.value[0].FeedDescription",
+													"Folder": "@activity('Lookup_FeedConfig').output.value[0].FolderPath",
+													"Directory": "@activity('Lookup_FeedConfig').output.value[0].FolderName"
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "StageTable",
+												"type": "DatasetReference"
+											}
+										]
 									}
 								]
 							}
