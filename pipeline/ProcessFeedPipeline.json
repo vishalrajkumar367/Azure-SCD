@@ -337,7 +337,7 @@
 										"typeProperties": {
 											"variableName": "SourceConfigID",
 											"value": {
-												"value": "SELECT FeedConfigID, SourceConfigID, FeedDescription, FolderPath, FolderName\nFROM dbo.FeedConfig WHERE\nAND SourceConfigID = @{item().SourceConfigID};\n",
+												"value": "SELECT SourceConfigID\nFROM dbo.FeedConfig WHERE\nAND SourceConfigID = @{item().SourceConfigID};\n",
 												"type": "Expression"
 											}
 										}
