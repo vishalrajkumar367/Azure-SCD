@@ -425,7 +425,7 @@
 				"type": "String"
 			},
 			"SourceConfigID": {
-				"type": "String"
+				"type": "Integer"
 			}
 		},
 		"annotations": []
