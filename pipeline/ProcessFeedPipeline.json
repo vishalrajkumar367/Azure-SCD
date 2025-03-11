@@ -166,7 +166,14 @@
 									{
 										"name": "Copy data To Stage",
 										"type": "Copy",
-										"dependsOn": [],
+										"dependsOn": [
+											{
+												"activity": "Reset_Pipeline",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -276,6 +283,50 @@
 											"referenceName": "LS_SCD_Type1_SQL_DB",
 											"type": "LinkedServiceReference"
 										}
+									},
+									{
+										"name": "Reset_Pipeline",
+										"type": "SqlServerStoredProcedure",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"storedProcedureName": "[dbo].[ResetPipelineMonitorStatus]",
+											"storedProcedureParameters": {
+												"RawStatus": {
+													"value": "",
+													"type": "String"
+												},
+												"SourceConfigID": {
+													"value": "",
+													"type": "Int32"
+												},
+												"StageStatus": {
+													"value": "",
+													"type": "String"
+												}
+											}
+										},
+										"linkedServiceName": {
+											"referenceName": "LS_SCD_Type1_SQL_DB",
+											"type": "LinkedServiceReference"
+										}
+									},
+									{
+										"name": "SourceConfigId",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": []
 									}
 								]
 							}
