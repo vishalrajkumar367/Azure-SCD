@@ -336,7 +336,10 @@
 										"userProperties": [],
 										"typeProperties": {
 											"variableName": "SourceConfigID",
-											"value": ""
+											"value": {
+												"value": "@activity('Lookup_FeedConfig').output.value[0].SourceConfigID",
+												"type": "Expression"
+											}
 										}
 									}
 								]
