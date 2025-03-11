@@ -337,7 +337,7 @@
 										"typeProperties": {
 											"variableName": "SourceConfigID",
 											"value": {
-												"value": "SELECT SourceConfigID\nFROM dbo.FeedConfig WHERE\nAND SourceConfigID = @{item().SourceConfigID};\n",
+												"value": "@activity('Lookup_FeedConfig').output.firstRow.SourceConfigID",
 												"type": "Expression"
 											}
 										}
