@@ -287,7 +287,14 @@
 									{
 										"name": "Reset_Pipeline",
 										"type": "SqlServerStoredProcedure",
-										"dependsOn": [],
+										"dependsOn": [
+											{
+												"activity": "SourceConfigID",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -319,14 +326,18 @@
 										}
 									},
 									{
-										"name": "SourceConfigId",
+										"name": "SourceConfigID",
 										"type": "SetVariable",
 										"dependsOn": [],
 										"policy": {
 											"secureOutput": false,
 											"secureInput": false
 										},
-										"userProperties": []
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "SourceConfigID",
+											"value": ""
+										}
 									}
 								]
 							}
@@ -408,6 +419,9 @@
 				"type": "Integer"
 			},
 			"FeedConfigIDMain": {
+				"type": "String"
+			},
+			"SourceConfigID": {
 				"type": "String"
 			}
 		},
