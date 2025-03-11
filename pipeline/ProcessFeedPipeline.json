@@ -51,22 +51,6 @@
 							}
 						},
 						{
-							"name": "Execute Pipeline Raw Processing",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "SP_SCDT_1",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						},
-						{
 							"name": "Lookup_ColumnConfig",
 							"type": "Lookup",
 							"dependsOn": [
@@ -174,6 +158,10 @@
 							],
 							"userProperties": [],
 							"typeProperties": {
+								"expression": {
+									"value": "@contains(activity('LookupFeedConfig').output.value[0].SourceConfigID, activity('LookupPipelineMonitor').output.value[0].SourceConfigID)\n",
+									"type": "Expression"
+								},
 								"ifTrueActivities": [
 									{
 										"name": "Copy data1",
