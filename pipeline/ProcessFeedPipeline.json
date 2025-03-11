@@ -202,12 +202,6 @@
 									]
 								},
 								{
-									"activity": "Copy_To_Staging",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
 									"activity": "Lookup_ColumnConfig",
 									"dependencyConditions": [
 										"Succeeded"
