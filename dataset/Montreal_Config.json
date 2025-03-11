@@ -1,0 +1,79 @@
+{
+	"name": "Montreal_Config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SCD_Type1_SQL_DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ProcessLogID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LoadConfigID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceConfigID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceRowCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TargetRowCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UpdateRowCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StageStartDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "StageEndDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "StageStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RawStartDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "RawEndDateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "RawStatus",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "PipelineMonitorConfig"
+		}
+	}
+}
