@@ -280,7 +280,14 @@
 									{
 										"name": "Final_Pipelien_update",
 										"type": "SqlServerStoredProcedure",
-										"dependsOn": [],
+										"dependsOn": [
+											{
+												"activity": "Execute Pipeline that does SCD",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -289,6 +296,9 @@
 											"secureInput": false
 										},
 										"userProperties": [],
+										"typeProperties": {
+											"storedProcedureName": "[dbo].[UpdatePipelineMonitorAndLoadDates]"
+										},
 										"linkedServiceName": {
 											"referenceName": "LS_SCD_Type1_SQL_DB",
 											"type": "LinkedServiceReference"
