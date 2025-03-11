@@ -24,20 +24,7 @@
 						{
 							"name": "Copy_To_Staging",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Lookup_ColumnConfig",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
-									"activity": "Lookup_FeedConfig",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -194,26 +181,7 @@
 						{
 							"name": "MonitorLogUpdation",
 							"type": "SqlServerStoredProcedure",
-							"dependsOn": [
-								{
-									"activity": "Execute Pipeline Raw Processing",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
-									"activity": "Lookup_ColumnConfig",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
-									"activity": "Lookup_FeedConfig",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
