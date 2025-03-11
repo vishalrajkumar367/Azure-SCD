@@ -238,7 +238,7 @@
 						},
 						{
 							"name": "If_Condition_Monitor",
-							"description": "This If condition Checks the SourceID in lookup_monitor and FeedConfig_Log and if the Id matches we update the Monitor log",
+							"description": "This If condition Checks the SourceID in lookup_monitor and FeedConfig_Log and if the Id matches we update the Monitor log Status to \"Starting_Copy \" and perform copy activity and after this ",
 							"type": "IfCondition",
 							"dependsOn": [],
 							"userProperties": []
