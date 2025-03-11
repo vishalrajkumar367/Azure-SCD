@@ -1,5 +1,5 @@
 {
-	"name": "Montreal_Config",
+	"name": "Monitor_Config_Log",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_SCD_Type1_SQL_DB",
