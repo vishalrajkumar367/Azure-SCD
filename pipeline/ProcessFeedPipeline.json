@@ -159,12 +159,12 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@contains(activity('LookupFeedConfig').output.value[0].SourceConfigID, activity('LookupPipelineMonitor').output.value[0].SourceConfigID)\n",
+									"value": "@contains(activity('Lookup_FeedConfig').output.value[0].SourceConfigID, activity('lookup_monitor').output.value[0].SourceConfigID)\n",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
 									{
-										"name": "Copy data1",
+										"name": "Copy data To Stage",
 										"type": "Copy",
 										"dependsOn": [],
 										"policy": {
@@ -232,7 +232,7 @@
 										"type": "ExecutePipeline",
 										"dependsOn": [
 											{
-												"activity": "Copy data1",
+												"activity": "Copy data To Stage",
 												"dependencyConditions": [
 													"Succeeded"
 												]
