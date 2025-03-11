@@ -270,7 +270,13 @@
 										},
 										"userProperties": [],
 										"typeProperties": {
-											"storedProcedureName": "[dbo].[ResetPipelineMonitorStatus]"
+											"storedProcedureName": "[dbo].[ResetPipelineMonitorStatus]",
+											"storedProcedureParameters": {
+												"SourceConfigID": {
+													"value": "",
+													"type": "Int32"
+												}
+											}
 										},
 										"linkedServiceName": {
 											"referenceName": "LS_SCD_Type1_SQL_DB",
