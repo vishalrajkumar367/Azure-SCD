@@ -462,11 +462,11 @@
 								"storedProcedureParameters": {
 									"LoadConfigID": {
 										"value": "",
-										"type": "Int32"
+										"type": "String"
 									},
 									"SourceRowCount": {
 										"value": "",
-										"type": "Int32"
+										"type": "String"
 									},
 									"StageEndDateTime": {
 										"value": "",
@@ -474,11 +474,11 @@
 									},
 									"TargetRowCount": {
 										"value": "",
-										"type": "Int32"
+										"type": "String"
 									},
 									"SourceConfigID": {
 										"value": "",
-										"type": "Int32"
+										"type": "String"
 									},
 									"RawEndDateTime": {
 										"value": "",
