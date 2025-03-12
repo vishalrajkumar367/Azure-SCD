@@ -464,8 +464,13 @@
 										"value": "",
 										"type": "Int32"
 									},
-									"undefined": {
-										"value": ""
+									"SourceRowCount": {
+										"value": "",
+										"type": "Int32"
+									},
+									"StageEndDateTime": {
+										"value": "",
+										"type": "Datetime"
 									}
 								}
 							},
