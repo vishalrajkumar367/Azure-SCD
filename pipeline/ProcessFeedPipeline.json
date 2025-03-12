@@ -337,7 +337,7 @@
 										"typeProperties": {
 											"variableName": "SourceConfigID",
 											"value": {
-												"value": "@int(activity('Lookup_FeedConfig').output.firstRow.SourceConfigID)\n",
+												"value": "@int(activity('Lookup_FeedConfig').output.value[0].SourceConfigID)",
 												"type": "Expression"
 											}
 										}
