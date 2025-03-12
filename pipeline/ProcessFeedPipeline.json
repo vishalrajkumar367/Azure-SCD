@@ -123,7 +123,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Stored procedure1",
+									"activity": "Update Moitor Log",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -319,7 +319,7 @@
 							}
 						},
 						{
-							"name": "Stored procedure1",
+							"name": "Update Moitor Log",
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
@@ -337,6 +337,9 @@
 								"secureInput": false
 							},
 							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[UpdatePipelineMonitorAndLoadDates]"
+							},
 							"linkedServiceName": {
 								"referenceName": "LS_SCD_Type1_SQL_DB",
 								"type": "LinkedServiceReference"
