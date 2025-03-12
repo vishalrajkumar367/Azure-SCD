@@ -458,41 +458,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"storedProcedureName": "[dbo].[UpdatePipelineMonitorAndLoadDates]",
-								"storedProcedureParameters": {
-									"LoadConfigID": {
-										"value": "",
-										"type": "String"
-									},
-									"SourceRowCount": {
-										"value": "",
-										"type": "String"
-									},
-									"StageEndDateTime": {
-										"value": "",
-										"type": "Datetime"
-									},
-									"TargetRowCount": {
-										"value": "",
-										"type": "String"
-									},
-									"SourceConfigID": {
-										"value": "",
-										"type": "String"
-									},
-									"RawEndDateTime": {
-										"value": "",
-										"type": "Datetime"
-									},
-									"StageStatus": {
-										"value": "",
-										"type": "String"
-									},
-									"RawStatus": {
-										"value": "",
-										"type": "String"
-									}
-								}
+								"storedProcedureName": "[dbo].[UpdatePipelineMonitorAndLoadDates]"
 							},
 							"linkedServiceName": {
 								"referenceName": "LS_SCD_Type1_SQL_DB",
