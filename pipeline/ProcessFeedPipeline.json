@@ -287,14 +287,7 @@
 									{
 										"name": "Reset_Pipeline",
 										"type": "SqlServerStoredProcedure",
-										"dependsOn": [
-											{
-												"activity": "SourceConfigID",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
+										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -323,23 +316,6 @@
 										"linkedServiceName": {
 											"referenceName": "LS_SCD_Type1_SQL_DB",
 											"type": "LinkedServiceReference"
-										}
-									},
-									{
-										"name": "SourceConfigID",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "SourceConfigID",
-											"value": {
-												"value": "@activity('Lookup_FeedConfig').output.value[0].SourceConfigID",
-												"type": "Expression"
-											}
 										}
 									}
 								]
