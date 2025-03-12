@@ -458,7 +458,16 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"storedProcedureName": "[dbo].[UpdatePipelineMonitorAndLoadDates]"
+								"storedProcedureName": "[dbo].[UpdatePipelineMonitorAndLoadDates]",
+								"storedProcedureParameters": {
+									"LoadConfigID": {
+										"value": "",
+										"type": "Int32"
+									},
+									"undefined": {
+										"value": ""
+									}
+								}
 							},
 							"linkedServiceName": {
 								"referenceName": "LS_SCD_Type1_SQL_DB",
