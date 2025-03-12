@@ -471,6 +471,13 @@
 									"StageEndDateTime": {
 										"value": "",
 										"type": "Datetime"
+									},
+									"TargetRowCount": {
+										"value": "",
+										"type": "Int32"
+									},
+									"undefined": {
+										"value": ""
 									}
 								}
 							},
