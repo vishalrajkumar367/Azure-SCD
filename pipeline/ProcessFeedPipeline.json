@@ -476,8 +476,21 @@
 										"value": "",
 										"type": "Int32"
 									},
-									"undefined": {
-										"value": ""
+									"SourceConfigID": {
+										"value": "",
+										"type": "Int32"
+									},
+									"RawEndDateTime": {
+										"value": "",
+										"type": "Datetime"
+									},
+									"StageStatus": {
+										"value": "",
+										"type": "String"
+									},
+									"RawStatus": {
+										"value": "",
+										"type": "String"
 									}
 								}
 							},
