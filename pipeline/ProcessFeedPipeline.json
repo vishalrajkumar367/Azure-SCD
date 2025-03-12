@@ -89,8 +89,6 @@
 						{
 							"name": "lookup_monitor",
 							"type": "Lookup",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Lookup_ColumnConfig",
@@ -123,11 +121,9 @@
 							"name": "If_Condition_Monitor",
 							"description": "This If condition Checks the SourceID in lookup_monitor and FeedConfig_Log and if the Id matches we update the Monitor log Status to \"Starting_Copy \" and perform copy activity and after this we update the log as Completed ",
 							"type": "IfCondition",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
-									"activity": "Update Moitor Log",
+									"activity": "lookup_monitor",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -327,14 +323,7 @@
 							"type": "SqlServerStoredProcedure",
 							"state": "Inactive",
 							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [
-								{
-									"activity": "lookup_monitor",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
