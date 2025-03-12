@@ -262,7 +262,7 @@
 										"type": "SqlServerStoredProcedure",
 										"dependsOn": [
 											{
-												"activity": "Set variable1",
+												"activity": "SourceConfigID",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -299,7 +299,7 @@
 										}
 									},
 									{
-										"name": "Set variable1",
+										"name": "SourceConfigID",
 										"type": "SetVariable",
 										"dependsOn": [],
 										"policy": {
