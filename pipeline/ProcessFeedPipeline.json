@@ -132,7 +132,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@equals(\n    int(activity('Lookup_FeedConfig').output.value[0].SourceConfigID), \n    int(activity('lookup_monitor').output.value[0].SourceConfigID)\n)",
+									"value": "@equals(activity('Lookup_ColumnConfig').output.value[0].SourceConfigID,activity('Lookup_FeedConfig').output.value[0].SourceConfigID )",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
