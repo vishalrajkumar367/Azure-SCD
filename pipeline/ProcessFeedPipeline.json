@@ -307,7 +307,7 @@
 											"storedProcedureName": "[dbo].[ResetPipelineMonitorStatus]",
 											"storedProcedureParameters": {
 												"RawStatus": {
-													"value": null,
+													"value": "",
 													"type": "String"
 												},
 												"SourceConfigID": {
@@ -315,7 +315,7 @@
 													"type": "String"
 												},
 												"StageStatus": {
-													"value": null,
+													"value": "",
 													"type": "String"
 												}
 											}
