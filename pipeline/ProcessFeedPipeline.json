@@ -530,7 +530,7 @@
 							}
 						},
 						{
-							"name": "Execute Pipeline2",
+							"name": "ExecuteStoredprocedure for SCD",
 							"type": "ExecutePipeline",
 							"dependsOn": [
 								{
@@ -545,8 +545,32 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
+								"pipeline": {
+									"referenceName": "SP_SCDT_1",
+									"type": "PipelineReference"
+								},
 								"waitOnCompletion": true
 							}
+						},
+						{
+							"name": "Updatemonitorlog",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "ExecuteStoredprocedure for SCD",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": []
 						}
 					]
 				}
