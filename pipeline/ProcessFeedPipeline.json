@@ -216,6 +216,10 @@
 										"type": "String"
 									},
 									"SourceConfigID": {
+										"value": {
+											"value": "@activity('Lookup_FeedConfig').output.value[0].SourceConfigID",
+											"type": "Expression"
+										},
 										"type": "Int32"
 									},
 									"StageStatus": {
