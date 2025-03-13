@@ -405,14 +405,15 @@
 							"type": "String"
 						},
 						"ErrorSeverity": {
-							"value": null,
+							"value": "",
 							"type": "Int32"
 						},
 						"ErrorState": {
-							"value": null,
+							"value": "",
 							"type": "Int32"
 						},
 						"ForEachName": {
+							"value": "CopyDynamicWithIsActive1",
 							"type": "String"
 						}
 					}
