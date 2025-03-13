@@ -259,6 +259,7 @@
 						},
 						{
 							"name": "Updatemonitorlog",
+							"description": "This Procedure Also calls ErrorLog SP within it",
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
