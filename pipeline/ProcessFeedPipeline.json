@@ -535,6 +535,8 @@
 			{
 				"name": "UpdateALL",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CopyDynamicWithIsActive1",
