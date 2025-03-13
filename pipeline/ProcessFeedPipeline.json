@@ -468,7 +468,7 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "lookup_monitor",
+									"activity": "SourceId_SET",
 									"dependencyConditions": [
 										"Succeeded"
 									]
