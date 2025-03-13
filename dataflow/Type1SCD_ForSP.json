@@ -18,7 +18,7 @@
 						"referenceName": "SCD1",
 						"type": "DatasetReference"
 					},
-					"name": "StagingSCD1Data"
+					"name": "RAWSCD1Data"
 				}
 			],
 			"transformations": [
@@ -57,7 +57,7 @@
 				"          gender,",
 				"          country,",
 				"          load_date",
-				"     )) ~> StagingSCD1Data"
+				"     )) ~> RAWSCD1Data"
 			]
 		}
 	}
