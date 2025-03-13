@@ -506,6 +506,30 @@
 								"referenceName": "LS_SCD_Type1_SQL_DB",
 								"type": "LinkedServiceReference"
 							}
+						},
+						{
+							"name": "SourceId_SET",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "lookup_monitor",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "SourceConfigID",
+								"value": {
+									"value": "@int(activity('Lookup_FeedConfig').output.value[0].SourceConfigID)",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
