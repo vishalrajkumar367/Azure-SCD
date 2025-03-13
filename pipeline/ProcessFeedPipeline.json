@@ -397,7 +397,7 @@
 					"storedProcedureName": "[dbo].[LogForEachError]",
 					"storedProcedureParameters": {
 						"ErrorDateTime": {
-							"value": "",
+							"value": "@utcNow()",
 							"type": "Datetime"
 						},
 						"ErrorMessage": {
@@ -405,11 +405,11 @@
 							"type": "String"
 						},
 						"ErrorSeverity": {
-							"value": "",
+							"value": null,
 							"type": "Int32"
 						},
 						"ErrorState": {
-							"value": "",
+							"value": null,
 							"type": "Int32"
 						},
 						"ForEachName": {
