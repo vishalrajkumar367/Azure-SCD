@@ -344,13 +344,11 @@
 							}
 						},
 						{
-							"name": "Copy data1",
+							"name": "CopyToStage",
 							"type": "Copy",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
-									"activity": "Update Moitor Log",
+									"activity": "Reset Pipeline as it is active",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -529,6 +527,25 @@
 									"value": "@int(activity('Lookup_FeedConfig').output.value[0].SourceConfigID)",
 									"type": "Expression"
 								}
+							}
+						},
+						{
+							"name": "Execute Pipeline2",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "CopyToStage",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"waitOnCompletion": true
 							}
 						}
 					]
