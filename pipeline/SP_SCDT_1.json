@@ -132,7 +132,8 @@
 					"dataset": {
 						"referenceName": "SCD1",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
