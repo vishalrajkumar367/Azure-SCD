@@ -192,8 +192,6 @@
 						{
 							"name": "Reset Pipeline as it is active",
 							"type": "SqlServerStoredProcedure",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "SourceId_SET",
