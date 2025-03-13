@@ -398,7 +398,7 @@
 					"storedProcedureParameters": {
 						"ErrorDateTime": {
 							"value": "",
-							"type": "DateTime"
+							"type": "Datetime"
 						},
 						"ErrorMessage": {
 							"value": "",
@@ -413,7 +413,6 @@
 							"type": "Int32"
 						},
 						"ForEachName": {
-							"value": "@ForEachName",
 							"type": "String"
 						}
 					}
