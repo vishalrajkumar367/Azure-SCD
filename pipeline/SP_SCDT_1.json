@@ -40,7 +40,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup1').output.value\n",
+						"value": "@activity('Lookup_Raw').output.value\n",
 						"type": "Expression"
 					},
 					"activities": [
