@@ -123,7 +123,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Reset Pipeline as it is active",
+									"activity": "SourceId_SET",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -192,14 +192,9 @@
 						{
 							"name": "Reset Pipeline as it is active",
 							"type": "SqlServerStoredProcedure",
-							"dependsOn": [
-								{
-									"activity": "SourceId_SET",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -216,10 +211,6 @@
 										"type": "String"
 									},
 									"SourceConfigID": {
-										"value": {
-											"value": "@int(activity('Lookup_FeedConfig').output.value[0].SourceConfigID)",
-											"type": "Expression"
-										},
 										"type": "Int32"
 									},
 									"StageStatus": {
@@ -288,12 +279,6 @@
 									"activity": "ExecuteStoredprocedure for SCD",
 									"dependencyConditions": [
 										"Succeeded"
-									]
-								},
-								{
-									"activity": "Reset Pipeline as it is active",
-									"dependencyConditions": [
-										"Failed"
 									]
 								}
 							],
