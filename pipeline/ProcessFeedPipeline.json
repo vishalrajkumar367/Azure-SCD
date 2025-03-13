@@ -259,7 +259,7 @@
 						},
 						{
 							"name": "Updatemonitorlog",
-							"description": "This Procedure Also calls ErrorLog SP within it",
+							"description": "This Procedure Also calls ErrorLog SP within it.",
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
@@ -344,8 +344,6 @@
 			{
 				"name": "UpdateALL",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "CopyDynamicWithIsActive1",
