@@ -393,6 +393,31 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[LogForEachError]",
+					"storedProcedureParameters": {
+						"ErrorDateTime": {
+							"value": "",
+							"type": "DateTime"
+						},
+						"ErrorMessage": {
+							"value": "",
+							"type": "String"
+						},
+						"ErrorSeverity": {
+							"value": "",
+							"type": "Int32"
+						},
+						"ErrorState": {
+							"value": "",
+							"type": "Int32"
+						},
+						"ForEachName": {
+							"value": "@ForEachName",
+							"type": "String"
+						}
+					}
+				},
 				"linkedServiceName": {
 					"referenceName": "LS_SCD_Type1_SQL_DB",
 					"type": "LinkedServiceReference"
