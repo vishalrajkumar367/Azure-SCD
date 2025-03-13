@@ -123,7 +123,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "SourceId_SET",
+									"activity": "Reset Pipeline as it is active",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -194,7 +194,14 @@
 							"type": "SqlServerStoredProcedure",
 							"state": "Inactive",
 							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "SourceId_SET",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -251,14 +258,9 @@
 						{
 							"name": "ExecuteStoredprocedure for SCD",
 							"type": "ExecutePipeline",
-							"dependsOn": [
-								{
-									"activity": "CopyToStage",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
+							"dependsOn": [],
 							"policy": {
 								"secureInput": false
 							},
@@ -274,14 +276,7 @@
 						{
 							"name": "Updatemonitorlog",
 							"type": "SqlServerStoredProcedure",
-							"dependsOn": [
-								{
-									"activity": "ExecuteStoredprocedure for SCD",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
