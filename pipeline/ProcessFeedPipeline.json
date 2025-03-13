@@ -121,14 +121,7 @@
 							"name": "If_Condition_Monitor",
 							"description": "This If condition Checks the SourceID in lookup_monitor and FeedConfig_Log and if the Id matches we update the Monitor log Status to \"Starting_Copy \" and perform copy activity and after this we update the log as Completed ",
 							"type": "IfCondition",
-							"dependsOn": [
-								{
-									"activity": "lookup_monitor",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
@@ -461,6 +454,33 @@
 							"userProperties": [],
 							"typeProperties": {
 								"storedProcedureName": "[dbo].[UpdatePipelineMonitorAndLoadDates]"
+							},
+							"linkedServiceName": {
+								"referenceName": "LS_SCD_Type1_SQL_DB",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Reset Pipeline as it is active",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "lookup_monitor",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[ResetPipelineMonitorStatus]"
 							},
 							"linkedServiceName": {
 								"referenceName": "LS_SCD_Type1_SQL_DB",
