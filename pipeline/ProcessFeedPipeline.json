@@ -350,6 +350,12 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "Lookup_SourceConfig",
+						"dependencyConditions": [
+							"Failed"
+						]
 					}
 				],
 				"policy": {
