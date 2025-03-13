@@ -114,7 +114,8 @@
 								"dataset": {
 									"referenceName": "Monitor_Config_Log",
 									"type": "DatasetReference"
-								}
+								},
+								"firstRowOnly": false
 							}
 						},
 						{
