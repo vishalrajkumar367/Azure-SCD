@@ -342,7 +342,7 @@
 				}
 			},
 			{
-				"name": "UpdateALL",
+				"name": "UpdateIsActive to False",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
