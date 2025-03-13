@@ -315,35 +315,6 @@
 							}
 						},
 						{
-							"name": "Update Moitor Log",
-							"type": "SqlServerStoredProcedure",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [
-								{
-									"activity": "Stored procedure1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"storedProcedureName": "[dbo].[UpdatePipelineMonitorAndLoadDates]"
-							},
-							"linkedServiceName": {
-								"referenceName": "LS_SCD_Type1_SQL_DB",
-								"type": "LinkedServiceReference"
-							}
-						},
-						{
 							"name": "CopyToStage",
 							"type": "Copy",
 							"dependsOn": [
@@ -413,53 +384,6 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "Execute Pipeline1",
-							"type": "ExecutePipeline",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "SP_SCDT_1",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						},
-						{
-							"name": "Stored procedure1",
-							"type": "SqlServerStoredProcedure",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [
-								{
-									"activity": "Execute Pipeline1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"storedProcedureName": "[dbo].[UpdatePipelineMonitorAndLoadDates]"
-							},
-							"linkedServiceName": {
-								"referenceName": "LS_SCD_Type1_SQL_DB",
-								"type": "LinkedServiceReference"
-							}
 						},
 						{
 							"name": "Reset Pipeline as it is active",
